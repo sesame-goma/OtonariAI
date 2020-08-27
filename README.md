@@ -2,8 +2,10 @@
 
 ## Getting Started
 ### install node_modules
-`$ cd juicy/app`
-`$ npm install`
+```
+$ cd juicy/app
+$ npm install
+```
 
 ### docker-compose up
 ```
