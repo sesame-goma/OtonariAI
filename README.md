@@ -3,7 +3,7 @@
 ## Getting Started
 ### install node_modules
 ```
-$ cd juicy/app
+$ cd jucy/app
 $ npm install
 ```
 
@@ -17,10 +17,10 @@ $ sudo chmod +x /usr/local/bin/docker-compose
 $ open /Applications/Docker.app
 //
 
-$ cd juicy
+$ cd jucy
 $ docker-compose up -d
 ```
 
 ## commands
 ### restart next server
-`$ docker exec -it juicy_next_1 npm run dev`
+`$ docker exec -it jucy_next_1 npm run dev`
