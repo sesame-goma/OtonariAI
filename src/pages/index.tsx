@@ -2,6 +2,8 @@ import useSWR from 'swr'
 import Link from 'next/link'
 import Layout from '../components/Layout'
 import { useUser } from '../utils/firebase/useUser'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 const fetcher = (url, token) =>
   fetch(url, {
@@ -16,7 +18,6 @@ const IndexPage = () => {
     user ? ['/api/getFood', user.token] : null,
     fetcher
   )
-  console.log(user);
   if (!user) {
     return (
       <Layout title="Home | Next.js + TypeScript Example">
@@ -27,7 +28,7 @@ const IndexPage = () => {
           </Link>
         </p>
         <p>
-          <Link href="/login">
+          <Link href="/eatery/login">
             <a>Login</a>
           </Link>
         </p>
@@ -38,7 +39,7 @@ const IndexPage = () => {
   return (
     <div>
       <div>
-        <p>You're signed in. Email: {user.email}</p>
+  <p>You're signed in. Email: {user.email}</p>
         <p
           style={{
             display: 'inline-block',

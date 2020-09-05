@@ -1,45 +1,40 @@
 /* globals window */
 import { useEffect, useState } from 'react'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
-import firebase from 'firebase/app'
+// import firebase from 'firebase/app'
+import firebase from '../utils/firebase/initFirebase'
 import 'firebase/auth'
-import initFirebase from '../utils/firebase/initFirebase'
 import { setUserCookie } from '../utils/firebase/userCookies'
 import { mapUserData } from '../utils/firebase/mapUserData'
-
-// Init the Firebase app.
-initFirebase()
 
 const firebaseAuthConfig = {
   signInFlow: 'popup',
   // Auth providers
   // https://github.com/firebase/firebaseui-web#configure-oauth-providers
   signInOptions: [
+    {
+      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      requireDisplayName: false,
+    },
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    // {
-    //   provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-    //   requireDisplayName: false,
-    // },
   ],
+
   signInSuccessUrl: '/',
+
   credentialHelper: 'none',
   callbacks: {
-    signInSuccessWithAuthResult: async ({ user }, redirectUrl) => {
-      const userData = mapUserData(user)
-      setUserCookie(userData)
+    signInSuccessWithAuthResult: ({ user }, redirectUrl) => {
+      mapUserData(user).then(userData => {
+        setUserCookie(userData);
+        // typeが入っていない(=未登録)ならサインアップへ飛ばす
+        if (false === !!userData.type) {
+          window.location.assign('/eatery/signup');
+          return false;
+        }
+      })
     },
   },
 }
-
-// const FirebaseAuth = (props) => {
-//   return (
-//       <div>
-//           <p>Please sign-in:</p>
-//           <StyledFirebaseAuth uiConfig={firebaseAuthConfig} firebaseAuth={firebase.auth()} />
-//       </div>
-//   );
-// }
-
 
 const FirebaseAuth = () => {
   // Do not SSR FirebaseUI, because it is not supported.
