@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+<<<<<<< HEAD:src/utils/firebase/useUser.ts
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+=======
+// import firebase from 'firebase/app'
+// import 'firebase/firestore'
+import firebase, { db } from './initFirebase'
+>>>>>>> d1:src/utils/auth/useUser.ts
 import * as admin from 'firebase-admin'
 import 'firebase/auth'
 import initFirebase from './initFirebase'
@@ -14,8 +20,6 @@ import {
   getUserFromCookie,
 } from './userCookies'
 import { mapUserData } from './mapUserData'
-
-initFirebase()
 
 const useUser = () => {
   const [user, setUser] = useState()
@@ -37,7 +41,11 @@ const useUser = () => {
   const getUserFromDB = (id) => {
     let data;
 
+<<<<<<< HEAD:src/utils/firebase/useUser.ts
     const db = firebase.firestore();
+=======
+    // const db = firebase.firestore();
+>>>>>>> d1:src/utils/auth/useUser.ts
     db.collection('users')
       .where('f_uid', '==', id)
       .get()
