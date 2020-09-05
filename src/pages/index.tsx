@@ -1,7 +1,7 @@
 import useSWR from 'swr'
 import Link from 'next/link'
 import Layout from '../components/Layout'
-import { useUser } from '../utils/auth/useUser'
+import { useUser } from '../utils/firebase/useUser'
 
 const fetcher = (url, token) =>
   fetch(url, {
@@ -16,6 +16,7 @@ const IndexPage = () => {
     user ? ['/api/getFood', user.token] : null,
     fetcher
   )
+  console.log(user);
   if (!user) {
     return (
       <Layout title="Home | Next.js + TypeScript Example">

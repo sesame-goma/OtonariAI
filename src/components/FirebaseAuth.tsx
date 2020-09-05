@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 import firebase from 'firebase/app'
 import 'firebase/auth'
-import initFirebase from '../utils/auth/initFirebase'
-import { setUserCookie } from '../utils/auth/userCookies'
-import { mapUserData } from '../utils/auth/mapUserData'
+import initFirebase from '../utils/firebase/initFirebase'
+import { setUserCookie } from '../utils/firebase/userCookies'
+import { mapUserData } from '../utils/firebase/mapUserData'
 
 // Init the Firebase app.
 initFirebase()
