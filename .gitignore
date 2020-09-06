@@ -30,6 +30,7 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+jucy-9eb2d-firebase-adminsdk-41a8n-60898e62e2.json
 
 # vercel
 .vercel
