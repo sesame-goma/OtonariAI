@@ -2,7 +2,7 @@ import useSWR from 'swr'
 import Layout from '../components/Layout'
 import { useUser } from '../utils/firebase/useUser'
 import Typography from '@material-ui/core/Typography';
-import Link from '../src/Link';
+import Link from '../components/Link';
 import Search from '../components/Search';
 
 const fetcher = (url, token) =>
