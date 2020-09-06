@@ -6,6 +6,7 @@ import firebase from '../utils/firebase/initFirebase'
 import 'firebase/auth'
 import { setUserCookie } from '../utils/firebase/userCookies'
 import { mapUserData } from '../utils/firebase/mapUserData'
+import Router from 'next/router'
 
 const firebaseAuthConfig = {
   signInFlow: 'popup',
@@ -26,9 +27,10 @@ const firebaseAuthConfig = {
     signInSuccessWithAuthResult: ({ user }, redirectUrl) => {
       mapUserData(user).then(userData => {
         setUserCookie(userData);
-        // typeが入っていない(=未登録)ならサインアップへ飛ばす
-        if (false === !!userData.type) {
-          window.location.assign('/eatery/signup');
+        // データが入っていない(=未登録)ならサインアップへ飛ばす
+        // TODO: eatery/influencerのどっちに飛ばすかを今のroutingから取得する
+        if (false === !!userData.data) {
+          Router.push('/eatery/signup');
           return false;
         }
       })
