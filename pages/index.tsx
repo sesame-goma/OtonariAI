@@ -37,7 +37,7 @@ const IndexPage = () => {
   }
 
   return (
-    <>
+    <Layout title="Home | Jucy">
       <Typography variant="h2" component="h1" gutterBottom>
         Jucy
       </Typography>
@@ -52,7 +52,7 @@ const IndexPage = () => {
         left: '50%',
         transform: 'translateX(-50%)',
       }}>
-        <img src="top.jpg" style={{ opacity: 0.4, }} />
+        <img src="/top.jpg" style={{ opacity: 0.4, width: '100vw', height: '100vh' }} />
       </div>
 
       <div style={{ marginTop: 50, marginBottom: 50, }}>
@@ -85,7 +85,7 @@ const IndexPage = () => {
         ) : (
           <div>Loading...</div>
         )}
-    </>
+    </Layout>
   )
 }
 
