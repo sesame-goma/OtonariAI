@@ -1,9 +1,9 @@
 import useSWR from 'swr'
-import Link from 'next/link'
 import Layout from '../components/Layout'
 import { useUser } from '../utils/firebase/useUser'
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
+import Typography from '@material-ui/core/Typography';
+import Link from '../src/Link';
+import Search from '../components/Search';
 
 const fetcher = (url, token) =>
   fetch(url, {
@@ -37,33 +37,55 @@ const IndexPage = () => {
   }
 
   return (
-    <div>
-      <div>
-  <p>You're signed in. Email: {user.email}</p>
-        <p
-          style={{
-            display: 'inline-block',
-            color: 'blue',
-            textDecoration: 'underline',
-            cursor: 'pointer',
-          }}
-          onClick={() => logout()}
-        >
-          Log out
-        </p>
+    <>
+      <Typography variant="h2" component="h1" gutterBottom>
+        Jucy
+      </Typography>
+      <Typography variant="h5" component="h1" gutterBottom>
+        かんたん、便利に食レポ依頼
+      </Typography>
+      <div style={{
+        backgroundColor: '#fff',
+        zIndex: -1,
+        position: 'absolute',
+        top: 0,
+        left: '50%',
+        transform: 'translateX(-50%)',
+      }}>
+        <img src="top.jpg" style={{ opacity: 0.4, }} />
       </div>
-      <div>
-        <Link href={'/about'}>
-          <a>Another example page</a>
+
+      <div style={{ marginTop: 50, marginBottom: 50, }}>
+        <Search />
+      </div>
+      <p>
+        <Link href="/login" color="secondary">
+          ログイン
         </Link>
-      </div>
-      {error && <div>Failed to fetch food!</div>}
-      {data && !error ? (
-        <div>Your favorite food is {data.food}.</div>
-      ) : (
-        <div>Loading...</div>
-      )}
-    </div>
+      </p>
+      <p
+        style={{
+          display: 'inline-block',
+          color: 'blue',
+          textDecoration: 'underline',
+          cursor: 'pointer',
+        }}
+        onClick={() => logout()}
+      >
+        ログアウト
+      </p>
+      <p>
+        <Link href='/about'>
+          Another example page
+        </Link>
+      </p>
+        {error && <div>Failed to fetch food!</div>}
+        {data && !error ? (
+          <div>Your favorite food is {data.food}.</div>
+        ) : (
+          <div>Loading...</div>
+        )}
+    </>
   )
 }
 
