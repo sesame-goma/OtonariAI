@@ -5,6 +5,6 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./src:/var/
-    working_dir: '/var/src'
+      - ./:/var/
+    working_dir: '/var'
     command: npm run dev
