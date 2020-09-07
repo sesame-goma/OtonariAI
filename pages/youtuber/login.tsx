@@ -36,7 +36,7 @@ export default function LoginPage() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          飲食店様ログイン
+          Youtuber様ログイン
         </Typography>
         <Typography component="h2" variant="subtitle2" style={{marginTop: 20, marginBottom: 5}}>
           Googleアカウントでログインできます。
