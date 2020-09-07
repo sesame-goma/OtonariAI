@@ -11,7 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Drawer from '@material-ui/core/Drawer';
-import Link from '../src/Link';
+import Link from '../components/Link';
 import Search from './Search';
 
 const styles = {
@@ -51,6 +51,11 @@ class GlobalMenu extends Component {
           <Link href="/about">
             <ListItem button>
               <ListItemText primary="About" />
+            </ListItem>
+          </Link>
+          <Link href="/analytics">
+            <ListItem button>
+              <ListItemText primary="Analytics" />
             </ListItem>
           </Link>
         </List>

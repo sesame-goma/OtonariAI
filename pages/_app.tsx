@@ -5,7 +5,6 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../src/theme';
 import Container from '@material-ui/core/Container';
-import Link from '../src/Link';
 import Copyright from '../src/Copyright';
 import Box from '@material-ui/core/Box';
 import GlobalMenu from '../components/GlobalMenu';

@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Link from '../../src/Link';
+import Link from '../../components/Link';
 import useFormInput from '../../utils/hooks/useFormInput'
 import { db } from '../../utils/firebase/initFirebase';
 import { useUser } from '../../utils/firebase/useUser'

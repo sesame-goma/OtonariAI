@@ -3,7 +3,7 @@ import Layout from '../../components/Layout'
 import FirebaseAuth from '../../components/FirebaseAuth'
 
 const LoginPage = () => (
-  <Layout title="Login | Next.js + TypeScript Example">
+  <Layout title="Login | Jucy">
     <h1>Login 🗝</h1>
     <div>
       <FirebaseAuth />
