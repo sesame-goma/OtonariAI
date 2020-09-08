@@ -28,9 +28,10 @@ const firebaseAuthConfig = {
       mapUserData(user).then(userData => {
         setUserCookie(userData);
         // データが入っていない(=未登録)ならサインアップへ飛ばす
-        // TODO: eatery/influencerのどっちに飛ばすかを今のroutingから取得する
-        if (false === !!userData.data) {
-          Router.push('/eatery/signup');
+        if (!userData.data) {
+          ~Router.pathname.indexOf('eatery')
+            ? Router.push('/eatery/signup')
+            : Router.push('/youtuber/signup')
           return false;
         }
       })

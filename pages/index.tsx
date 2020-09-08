@@ -18,23 +18,6 @@ const IndexPage = () => {
     user ? ['/api/getFood', user.token] : null,
     fetcher
   )
-  if (!user) {
-    return (
-      <Layout title="Home | Jucy">
-        <h1>Hell Next.js 👋</h1>
-        <p>
-          <Link href="/about">
-            <a>About</a>
-          </Link>
-        </p>
-        <p>
-          <Link href="/eatery/login">
-            <a>Login</a>
-          </Link>
-        </p>
-      </Layout>
-    )
-  }
 
   return (
     <Layout title="Home | Jucy">
@@ -59,8 +42,13 @@ const IndexPage = () => {
         <Search />
       </div>
       <p>
-        <Link href="/login" color="secondary">
-          ログイン
+        <Link href="/eatery/login" color="secondary">
+          飲食店様ログイン
+        </Link>
+      </p>
+      <p>
+        <Link href="/youtuber/login" color="secondary">
+          Youtuber様ログイン
         </Link>
       </p>
       <p
