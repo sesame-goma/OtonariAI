@@ -4,7 +4,7 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 import Layout from "../../components/Layout";
 import initFirebase from "../../utils/firebase/initFirebase";
-import { getUserFromCookie } from "../../utils/firebase/userCookies";
+import { useUser } from "../../utils/firebase/useUser";
 
 type Message = {
   content: string;
@@ -16,7 +16,7 @@ const ApplyPage = () => {
     content: "",
   });
 
-  const user = getUserFromCookie();
+  const user = useUser();
 
   const onMessageChange = ({
     target: { name, value },
