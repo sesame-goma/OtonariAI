@@ -45,7 +45,8 @@ export default function SignUpPage() {
     db.collection('users')
       .doc(user.id)
       .set({
-        data: {name: name.value, type: "eatery"}
+        name: name.value,
+        type: "eatery",
       })
       .then(e => {
         Router.push('/');

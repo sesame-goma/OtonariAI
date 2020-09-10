@@ -2,6 +2,8 @@ import React from 'react';
 import InputBase from '@material-ui/core/InputBase';
 import { createStyles, fade, Theme, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import useFormInput from '../utils/hooks/useFormInput'
+import Router from 'next/router'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,6 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Search() {
   const classes = useStyles();
+  const search = useFormInput('');
 
   return (
     <div className={classes.search}>
@@ -63,6 +66,16 @@ export default function Search() {
           input: classes.inputInput,
         }}
         inputProps={{ 'aria-label': 'search' }}
+        onKeyPress={e => {
+          if (e.key == 'Enter') {
+            e.preventDefault()
+            Router.push({
+              pathname: '/youtuber',
+              query: { keyword: search.value }
+            })
+          }
+        }}
+        {...search}
       />
     </div>
   )
