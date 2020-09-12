@@ -32,7 +32,7 @@ export default function MyApp(props: AppProps) {
         <header>
           <GlobalMenu />
         </header>
-        <Container maxWidth="sm">
+        <Container maxWidth="md">
           <Box my={4}>
             <Component {...pageProps} />
           </Box>

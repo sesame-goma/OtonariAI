@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: '100%',
-      // maxWidth: '36ch',
       backgroundColor: theme.palette.background.paper,
     },
     inline: {
@@ -31,8 +30,8 @@ export default function ChannelList({ items }: items) {
 
   return (
     <List className={classes.root}>
-      { items.map((item: item) =>
-        <ChannelListRow item={item} />
+      {items && items.map((item: item) =>
+        <ChannelListRow item={item} key={item.key}/>
       )}
     </List>
   );

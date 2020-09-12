@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: 10,
       marginBottom: 10,
     },
+    nested: {
+      marginLeft: 50,
+    }
   }),
 );
 
@@ -43,6 +46,7 @@ export default function ChannelListRow({ item }: item) {
   const classes = useStyles();
   return (
     <React.Fragment key={item.key}>
+      <Divider component="li" className={classes.divider}/>
       <ListItem alignItems="flex-start">
       {/* <ListItem alignItems="flex-start" button onClick={handleClick}> */}
         <ListItemAvatar>
@@ -71,17 +75,16 @@ export default function ChannelListRow({ item }: item) {
             <ListItemIcon>
               <VisibilityIcon />
             </ListItemIcon>
-            <ListItemText primary="1,000,000" />
+            <ListItemText primary={`総視聴回数: ${parseInt(item.viewCount).toLocaleString()}回`} />
           </ListItem>
           <ListItem className={classes.nested}>
             <ListItemIcon>
               <SubscriptionsIcon />
             </ListItemIcon>
-            <ListItemText primary="100,000" />
+            <ListItemText primary={`チャンネル登録者数: ${parseInt(item.subscriberCount).toLocaleString()}人`} />
           </ListItem>
         </List>
       {/* </Collapse> */}
-      <Divider component="li" className={classes.divider}/>
     </React.Fragment>
   );
 }
