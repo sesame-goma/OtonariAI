@@ -36,16 +36,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUpPage() {
-  const name = useFormInput('');
+  const channelIdInput = useFormInput('');
   const classes = useStyles();
   const { user } = useUser();
-  // const router = useRouter();
 
   const submit = () => {
     db.collection('users')
       .doc(user.id)
       .set({
-        data: {name: name.value, type: "youtuber"}
+        name: name.value,
+        type: "youtuber"
       })
       .then(e => {
         Router.push('/');
@@ -73,9 +73,9 @@ export default function SignUpPage() {
               required
               fullWidth
               id="name"
-              label="名前"
+              label="チャンネルID"
               autoFocus
-              {...name}
+              {...channelIdInput}
             />
           </Grid>
           <Grid item xs={12}>
