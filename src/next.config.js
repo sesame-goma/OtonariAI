@@ -24,7 +24,7 @@ module.exports = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
-
+  distDir: '../.next',
   exportTrailingSlash: true,
   exportPathMap: function() {
     return {
