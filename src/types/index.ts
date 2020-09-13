@@ -9,10 +9,15 @@ export type User = {
   name: string;
 };
 
-type AgeAndGender = [
+export type AgeAndGender = [
   string, // 年齢層
   string, // 性別
   number // パーセンテージ
+];
+
+export type WeekActive = [
+  string, //曜日
+  number //パーセンテージ
 ];
 
 type ViewPercentWithCountry = [
