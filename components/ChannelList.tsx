@@ -2,6 +2,7 @@ import React from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ChannelListRow from './ChannelListRow';
+import { item } from '../types/youtuber/index';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -16,16 +17,13 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-type item = {
-  key: number;
-  title: string;
-  thumbnail: string;
-  description: string;
+type Props = {
+  items: Array<item>,
 }
-type items = Array<item>;
 
 
-export default function ChannelList({ items }: items) {
+// export default function ChannelList(props: Props) {
+export default function ChannelList({items}: Props) {
   const classes = useStyles();
 
   return (
