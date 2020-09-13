@@ -82,9 +82,9 @@ class GlobalMenu extends Component {
             <strong>
               <Link href="/" style={{ boxShadow: 'none', textDecoration: 'none', color: 'inherit', fontFamily: 'Montserrat, sans-serif', }}>Jucy</Link>
             </strong>
-            <div style={{marginLeft: 'auto' }}>
+            {/* <div style={{marginLeft: 'auto' }}>
               <Search search={()=>{}} />
-            </div>
+            </div> */}
           </Toolbar>
         </AppBar>
       </div>
