@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/src/node_modules
 /.pnp
 .pnp.js
 
@@ -18,7 +19,6 @@
 # misc
 .DS_Store
 *.pem
-.firebase/
 
 # debug
 npm-debug.log*
@@ -30,6 +30,7 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+jucy-9eb2d-firebase-adminsdk-41a8n-60898e62e2.json
 
 # vercel
 .vercel

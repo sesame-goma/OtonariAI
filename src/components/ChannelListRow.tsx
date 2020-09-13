@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -8,16 +8,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
+import { item } from '../types/youtuber/index';
 
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     root: {
       width: '100%',
@@ -35,14 +32,12 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-type item = {
-  key: number;
-  title: string;
-  thumbnail: string;
-  description: string;
+type Props = {
+  item: item,
+  key: number,
 }
 
-export default function ChannelListRow({ item }: item) {
+export default function ChannelListRow({item}: Props) {
   const classes = useStyles();
   return (
     <React.Fragment key={item.key}>

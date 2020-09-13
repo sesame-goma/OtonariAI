@@ -3,9 +3,9 @@ import Head from 'next/head';
 import { AppProps } from 'next/app';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import theme from '../src/theme';
+import theme from '../components/theme';
 import Container from '@material-ui/core/Container';
-import Copyright from '../src/Copyright';
+import Copyright from '../components/Copyright';
 import Box from '@material-ui/core/Box';
 import GlobalMenu from '../components/GlobalMenu';
 

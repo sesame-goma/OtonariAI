@@ -7,6 +7,7 @@ import 'firebase/auth'
 import { setUserCookie } from '../utils/firebase/userCookies'
 import { mapUserData } from '../utils/firebase/mapUserData'
 import Router from 'next/router'
+import { User } from '../types/index'
 
 const firebaseAuthConfig = {
   signInFlow: 'popup',
@@ -24,8 +25,8 @@ const firebaseAuthConfig = {
 
   credentialHelper: 'none',
   callbacks: {
-    signInSuccessWithAuthResult: ({ user }, redirectUrl) => {
-      mapUserData(user).then(userData => {
+    signInSuccessWithAuthResult: ({ user }: {user: User}) => {
+      mapUserData(user).then((userData: any) => {
         setUserCookie(userData);
         // データが入っていない(=未登録)ならサインアップへ飛ばす
         if (!userData.data) {
