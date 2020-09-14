@@ -89,5 +89,6 @@ export type Data = {
 export type Message = {
   id: string;
   content: string;
+  isChecked?: boolean | null;
   created_at: string;
 };
