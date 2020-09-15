@@ -23,16 +23,26 @@ const YoutuberIndex = () => {
   const maxViewCount = useFormInput();
   const baseKeyword = useFormInput(router.query.keyword);
   const [state, setState] = useState({
+    japanese: false,
+    european: false,
+    chinese: false,
     ramen: false,
+    cafe: false,
     sweet: false,
+    chili: false,
   });
   const handleChangeCheckBox = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
   let searchKeyword = baseKeyword.value;
+  if (state.japanese) searchKeyword += ' 和食';
+  if (state.european) searchKeyword += ' 洋食';
+  if (state.chinese) searchKeyword += ' 中華';
   if (state.ramen) searchKeyword += ' ラーメン';
+  if (state.care) searchKeyword += ' カフェ';
   if (state.sweet) searchKeyword += ' スイート';
+  if (state.chili) searchKeyword += ' 激辛';
 
   let query = { keyword: searchKeyword };
   if (minSubscriberCount.value) query.minSubscriberCount = minSubscriberCount.value;
@@ -82,12 +92,32 @@ const YoutuberIndex = () => {
       </Typography>
       <FormGroup row>
         <FormControlLabel
+          control={<Checkbox checked={state.japanese} onChange={handleChangeCheckBox} name="japanese" />}
+          label="和食"
+        />
+        <FormControlLabel
+          control={<Checkbox checked={state.european} onChange={handleChangeCheckBox} name="european" />}
+          label="洋食"
+        />
+        <FormControlLabel
+          control={<Checkbox checked={state.chinese} onChange={handleChangeCheckBox} name="chinese" />}
+          label="中華"
+        />
+        <FormControlLabel
           control={<Checkbox checked={state.ramen} onChange={handleChangeCheckBox} name="ramen" />}
           label="ラーメン"
         />
         <FormControlLabel
+          control={<Checkbox checked={state.cafe} onChange={handleChangeCheckBox} name="cafe" />}
+          label="カフェ"
+        />
+        <FormControlLabel
           control={<Checkbox checked={state.sweet} onChange={handleChangeCheckBox} name="sweet" />}
           label="スイーツ"
+        />
+        <FormControlLabel
+          control={<Checkbox checked={state.chili} onChange={handleChangeCheckBox} name="chili" />}
+          label="激辛"
         />
       </FormGroup>
 
