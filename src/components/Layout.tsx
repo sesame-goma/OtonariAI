@@ -31,10 +31,6 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => (
       </nav> */}
     </header>
     {children}
-    <footer>
-      <hr />
-      <span>ジューシーです。</span>
-    </footer>
   </div>
 )
 
