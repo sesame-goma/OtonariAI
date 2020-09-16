@@ -1,5 +1,5 @@
 import { GetStaticProps } from "next";
-import Link from "next/link";
+import R from 'ramda';
 import {
   VictoryGroup,
   VictoryPie,
@@ -10,6 +10,27 @@ import {
   VictoryAxis,
 } from "victory";
 
+import {
+  BarChart,
+  Bar,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend
+} from 'recharts';
+
+import { 
+  Card,
+  CardHeader,
+  Grid,
+  GridList,
+  GridListTile,
+  GridListTileBar,
+} from '@material-ui/core';
+import { Rating } from '@material-ui/lab';
+
 import { AgeAndGender } from "../../types";
 import { Data, User } from "../../types";
 
@@ -17,6 +38,7 @@ import { Country, Gender, Age, DoW } from "../../types/analytics";
 import { sampleAnalyticData, sampleUserData } from "../../utils/sample-data";
 import Layout from "../../components/Layout";
 import List from "../../components/List";
+import { useStyles } from "../analytics/styles";
 
 type Props = {
   dataCountries: any;
@@ -35,50 +57,84 @@ export type dataAge = {
   y: number;
 };
 
+const AgeAndGenderChart = (data: dataAgeAndGender) => {
+  console.log(Array.isArray(data));
+  return (
+    <BarChart
+      width={500}
+      height={300}
+      data={data}
+      margin={{
+        top: 5,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Bar dataKey="male" fill="#8884d8" />
+      <Bar dataKey="female" fill="#82ca9d" />
+    </BarChart>
+  );
+};
+
 const WithStaticProps = ({
   items,
   dataCountries,
   dataAgeAndGender,
   dataWeekActive,
-}: Props) => (
-  <Layout title="Analytics | Jucy">
-    <h1>Youtuber Analytics</h1>
-    <VictoryPie
-      theme={VictoryTheme.material}
-      data={dataCountries}
-      animate={{
-        duration: 2000,
-      }}
-    />
+}: Props) => {
+  const classes = useStyles();
+  console.log(Array.isArray(dataAgeAndGender));
+  return (
+    <Layout classes={classes.root} title="Analytics | Jucy">
+      <GridList cols={3} spacing={50} cellHeight={500}>
+        <GridListTile>
+          <Card>
+            <CardHeader title="地域" />
+            <VictoryPie
+              theme={VictoryTheme.material}
+              data={dataCountries}
+              animate={{
+                duration: 2000,
+              }}
+            />
+          </Card>
+        </GridListTile>
 
-    <VictoryChart theme={VictoryTheme.material} domainPadding={{ x: 8 }}>
-      <VictoryGroup offset={10} colorScale={["#6699FF", "#FF99CC"]}>
-        <VictoryBar data={dataAgeAndGender.male} />
-        <VictoryBar data={dataAgeAndGender.female} />
-      </VictoryGroup>
-    </VictoryChart>
+        <GridListTile>
+          <Card>
+            <CardHeader title="年齢・男女比" />
+            {AgeAndGenderChart(dataAgeAndGender)}
+          </Card>
+        </GridListTile>
 
-    <div>曜日・時間ごとの視聴率</div>
-    <VictoryChart
-      theme={VictoryTheme.material}
-      domain={{ x: [0, 8], y: [0, 25] }}
-    >
-      <VictoryAxis style={{ ticks: { padding: 5 } }} />
-      <VictoryScatter
-        style={{ data: { fill: "#c43a31" } }}
-        bubbleProperty="amount"
-        maxBubbleSize={5}
-        minBubbleSize={1}
-        data={dataWeekActive}
-      />
-    </VictoryChart>
-    <p>
-      <Link href="/">
-        <a>Go home</a>
-      </Link>
-    </p>
-  </Layout>
-);
+        <GridListTile>
+          <Card>
+            <CardHeader title="曜日・時間ごとの視聴率" />
+            <VictoryChart
+              theme={VictoryTheme.material}
+              domain={{ x: [0, 8], y: [0, 25] }}
+            >
+              <VictoryAxis style={{ ticks: { padding: 5 } }} />
+              <VictoryScatter
+                style={{ data: { fill: "#c43a31" } }}
+                bubbleProperty="amount"
+                maxBubbleSize={5}
+                minBubbleSize={1}
+                data={dataWeekActive}
+              />
+            </VictoryChart>
+          </Card>
+        </GridListTile>
+      </GridList>
+    </Layout>
+  );
+};
 
 export const getServerSideProps: GetStaticProps = async () => {
   const items: User[] = sampleUserData;
@@ -93,28 +149,20 @@ export const getServerSideProps: GetStaticProps = async () => {
     }
   );
 
-  const dataAgeAndGender = data.items[0].ageAndGenderWithViewPercent.reduce(
-    (accumulator: dataGender, currentValue: AgeAndGender) => {
-      if (currentValue[1] == "male") {
-        return {
-          male: accumulator.male.concat({
-            x: currentValue[0].slice(3, 6),
-            y: currentValue[2],
-          }),
-          female: accumulator.female,
-        };
-      } else {
-        return {
-          male: accumulator.male,
-          female: accumulator.female.concat({
-            x: currentValue[0].slice(3, 6),
-            y: currentValue[2],
-          }),
-        };
-      }
-    },
-    { male: [], female: [] }
-  );
+  const dataAgeAndGender = data.items[0].ageAndGenderWithViewPercent.reduce((
+    acc: dataGender, curVal: AgeAndGender
+  ) => {
+    if (curVal[1] == 'female') {
+      acc.push({
+        name: curVal[0].slice(3, 6),
+        female: curVal[2],
+      });
+    } else {
+      acc[acc.length -1]['male'] = curVal[2];
+    }
+    return acc;
+  }, []);
+
   const dataWeekActive = Object.keys(data.items[0].weekActive).reduce(
     (accumulator, currentValue) => {
       return accumulator.concat(
@@ -131,7 +179,6 @@ export const getServerSideProps: GetStaticProps = async () => {
     },
     []
   );
-  console.log(dataAgeAndGender);
   return {
     props: {
       items,

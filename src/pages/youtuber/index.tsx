@@ -2,6 +2,7 @@ import Layout from '../../components/Layout'
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
+import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
@@ -58,101 +59,103 @@ const YoutuberIndex = () => {
   }
 
   return (
-    <Layout title="Home | Jucy">
-      <Typography variant="body2" color="textSecondary">
-        チャンネル登録者数
-      </Typography>
-      <TextField
-        variant="outlined"
-        label="min"
-        {...minSubscriberCount}
-      />
-      <TextField
-        variant="outlined"
-        label="max"
-        {...maxSubscriberCount}
-      />
-
-      <Typography variant="body2" color="textSecondary">
-        総視聴回数
-      </Typography>
-      <TextField
-        variant="outlined"
-        label="min"
-        {...minViewCount}
-      />
-      <TextField
-        variant="outlined"
-        label="max"
-        {...maxViewCount}
-      />
-
-      <Typography variant="body2" color="textSecondary">
-        おすすめカテゴリ
-      </Typography>
-      <FormGroup row>
-        <FormControlLabel
-          control={<Checkbox checked={state.japanese} onChange={handleChangeCheckBox} name="japanese" />}
-          label="和食"
+    <Container maxWidth="md">
+      <Layout title="Home | Jucy">
+        <Typography variant="body2" color="textSecondary">
+          チャンネル登録者数
+        </Typography>
+        <TextField
+          variant="outlined"
+          label="min"
+          {...minSubscriberCount}
         />
-        <FormControlLabel
-          control={<Checkbox checked={state.european} onChange={handleChangeCheckBox} name="european" />}
-          label="洋食"
+        <TextField
+          variant="outlined"
+          label="max"
+          {...maxSubscriberCount}
         />
-        <FormControlLabel
-          control={<Checkbox checked={state.chinese} onChange={handleChangeCheckBox} name="chinese" />}
-          label="中華"
+
+        <Typography variant="body2" color="textSecondary">
+          総視聴回数
+        </Typography>
+        <TextField
+          variant="outlined"
+          label="min"
+          {...minViewCount}
         />
-        <FormControlLabel
-          control={<Checkbox checked={state.ramen} onChange={handleChangeCheckBox} name="ramen" />}
-          label="ラーメン"
+        <TextField
+          variant="outlined"
+          label="max"
+          {...maxViewCount}
         />
-        <FormControlLabel
-          control={<Checkbox checked={state.cafe} onChange={handleChangeCheckBox} name="cafe" />}
-          label="カフェ"
+
+        <Typography variant="body2" color="textSecondary">
+          おすすめカテゴリ
+        </Typography>
+        <FormGroup row>
+          <FormControlLabel
+            control={<Checkbox checked={state.japanese} onChange={handleChangeCheckBox} name="japanese" />}
+            label="和食"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={state.european} onChange={handleChangeCheckBox} name="european" />}
+            label="洋食"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={state.chinese} onChange={handleChangeCheckBox} name="chinese" />}
+            label="中華"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={state.ramen} onChange={handleChangeCheckBox} name="ramen" />}
+            label="ラーメン"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={state.cafe} onChange={handleChangeCheckBox} name="cafe" />}
+            label="カフェ"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={state.sweet} onChange={handleChangeCheckBox} name="sweet" />}
+            label="スイーツ"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={state.chili} onChange={handleChangeCheckBox} name="chili" />}
+            label="激辛"
+          />
+        </FormGroup>
+
+        <Typography variant="body2" color="textSecondary">
+          フリーワード
+        </Typography>
+        <TextField
+          variant="outlined"
+          {...baseKeyword}
         />
-        <FormControlLabel
-          control={<Checkbox checked={state.sweet} onChange={handleChangeCheckBox} name="sweet" />}
-          label="スイーツ"
-        />
-        <FormControlLabel
-          control={<Checkbox checked={state.chili} onChange={handleChangeCheckBox} name="chili" />}
-          label="激辛"
-        />
-      </FormGroup>
 
-      <Typography variant="body2" color="textSecondary">
-        フリーワード
-      </Typography>
-      <TextField
-        variant="outlined"
-        {...baseKeyword}
-      />
+        {/* スペース用に適当に入れた */}
+        <Box mt={2}>
+        </Box>
 
-      {/* スペース用に適当に入れた */}
-      <Box mt={2}>
-      </Box>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={submit}
+        >
+        検索する
+        </Button>
 
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={submit}
-      >
-       検索する
-      </Button>
-
-      {/* スペース用に適当に入れた */}
-      <Box mt={5}>
-      </Box>
+        {/* スペース用に適当に入れた */}
+        <Box mt={5}>
+        </Box>
 
 
-      <Typography variant="h4" component="h1" gutterBottom>
-        チャンネル検索結果
-      </Typography>
-      {channels &&  (
-        <ChannelList items={channels} />
-      )}
-    </Layout>
+        <Typography variant="h4" component="h1" gutterBottom>
+          チャンネル検索結果
+        </Typography>
+        {channels &&  (
+          <ChannelList items={channels} />
+        )}
+      </Layout>
+    </Container>
   )
 }
 
