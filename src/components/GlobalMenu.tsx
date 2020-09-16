@@ -19,6 +19,10 @@ const styles = {
   },
   root: {
     flexGrow: 1,
+    marginBottom: 80,
+  },
+  appBar: {
+    boxShadow: 'none',
   },
   menuButton: {
     marginLeft: -12,
@@ -63,7 +67,7 @@ class GlobalMenu extends Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="relative" color="inherit">
+        <AppBar className={classes.appBar} position="fixed" color="default">
           <Toolbar>
             <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={this.toggleDrawer('left', true)}>
               <MenuIcon />

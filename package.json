@@ -14,12 +14,12 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
-    "firebase-functions": "^3.3.0",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/styles": "^4.10.0",
     "firebase": "^7.19.1",
     "firebase-admin": "^9.1.1",
+    "firebase-functions": "^3.3.0",
     "js-cookie": "^2.2.1",
     "moment": "^2.27.0",
     "next": "latest",
@@ -27,6 +27,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-firebaseui": "^4.1.0",
+    "recharts": "^1.8.5",
     "swr": "^0.3.2",
     "victory": "^35.0.8"
   },
