@@ -79,12 +79,9 @@ class GlobalMenu extends Component {
                 {sideList}
               </div>
             </Drawer>
-            <strong>
-              <Link href="/" style={{ boxShadow: 'none', textDecoration: 'none', color: 'inherit', fontFamily: 'Montserrat, sans-serif', }}>Jucy</Link>
-            </strong>
-            {/* <div style={{marginLeft: 'auto' }}>
-              <Search search={()=>{}} />
-            </div> */}
+            <Link href="/" >
+              <img src="/logo_sm.png" style={{height: 30, marginTop: 10, marginBottom: 5}}/>
+            </Link>
           </Toolbar>
         </AppBar>
       </div>

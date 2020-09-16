@@ -9,6 +9,23 @@ import Copyright from '../components/Copyright';
 import Box from '@material-ui/core/Box';
 import GlobalMenu from '../components/GlobalMenu';
 
+// const theme = createMuiTheme({
+//   typography: {
+//     fontFamily: [
+//       '-apple-system',
+//       'BlinkMacSystemFont',
+//       '"Segoe UI"',
+//       'Roboto',
+//       '"Helvetica Neue"',
+//       'Arial',
+//       'sans-serif',
+//       '"Apple Color Emoji"',
+//       '"Segoe UI Emoji"',
+//       '"Segoe UI Symbol"',
+//     ].join(','),
+//   },
+// });
+
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
 
@@ -33,9 +50,17 @@ export default function MyApp(props: AppProps) {
           <GlobalMenu />
         </header>
         <Container maxWidth="md">
-          <Box my={4}>
-            <Component {...pageProps} />
-          </Box>
+          {pageProps.top
+          ? (
+            <Box>
+              <Component {...pageProps} />
+            </Box>
+          )
+          : (
+            <Box my={4}>
+              <Component {...pageProps} />
+            </Box>
+          )}
           <footer>
             <Box mt={5}>
               <Copyright />
