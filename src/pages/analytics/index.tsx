@@ -43,7 +43,6 @@ const WithStaticProps = ({
 }: Props) => (
   <Layout title="Analytics | Jucy">
     <h1>Youtuber Analytics</h1>
-    <List items={items} />
     <VictoryPie
       theme={VictoryTheme.material}
       data={dataCountries}
@@ -99,7 +98,7 @@ export const getServerSideProps: GetStaticProps = async () => {
       if (currentValue[1] == "male") {
         return {
           male: accumulator.male.concat({
-            x: currentValue[0].slice(0, 6),
+            x: currentValue[0].slice(3, 6),
             y: currentValue[2],
           }),
           female: accumulator.female,
@@ -108,7 +107,7 @@ export const getServerSideProps: GetStaticProps = async () => {
         return {
           male: accumulator.male,
           female: accumulator.female.concat({
-            x: currentValue[0].slice(0, 6),
+            x: currentValue[0].slice(3, 6),
             y: currentValue[2],
           }),
         };
