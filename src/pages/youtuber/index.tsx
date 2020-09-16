@@ -20,9 +20,9 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
   },
   mainContainer: {
-    borderStyle: 'solid',
-    borderWidth: 3,
-    borderColor: 'lightBlue',
+    // borderStyle: 'solid',
+    // borderWidth: 3,
+    // borderColor: 'lightBlue',
 
     padding: 20,
   }
