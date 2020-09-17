@@ -1,4 +1,5 @@
 import { GetStaticProps } from "next";
+import { useState, useContext, useEffect } from 'react';
 import R from 'ramda';
 import {
   VictoryGroup,
@@ -29,11 +30,20 @@ import {
   GridList,
   GridListTile,
   GridListTileBar,
+  Typography,
+  ListItem,
+  Divider,
+  ListItemText,
+  ListItemAvatar,
+  Avatar,
 } from '@material-ui/core';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 import { Rating } from '@material-ui/lab';
 
 import { AgeAndGender } from "../../types";
 import { Data, User } from "../../types";
+import { GlobalContext } from '../../utils/context/context';
 
 import { Country, Gender, Age, DoW } from "../../types/analytics";
 import { sampleAnalyticData, sampleUserData } from "../../utils/sample-data";
@@ -169,13 +179,46 @@ const WithStaticProps = ({
   dataAgeAndGender,
   dataWeekActive,
 }: Props) => {
+  const { channels } = useContext(GlobalContext);
+  if(!channels) { return; }
+  console.log('おおおおおおおおおおおおおおおあじゃじゃじゃｊ', channels);
   const classes = useStyles();
-  console.log(Array.isArray(dataAgeAndGender));
   return (
-    <Layout classes={classes.root} title="Analytics | Jucy">
-      <GridList cols={3} spacing={50} cellHeight={500}>
-        <GridListTile>
-          <Card>
+    <Layout title="Analytics | Jucy">
+      <Grid classes={classes.root} container spacing={10}>
+        <Grid item xs={12}>
+          <Grid container xs={12}>
+            <Avatar alt="Remy Sharp" src={channels[0]?.thumbnail || ''} />
+            <Typography variant="h2">
+              {channels[0].title}
+            </Typography>
+          </Grid>
+        </Grid>
+        <Grid item xs={6}>
+          <Card valiant="outlined">
+            <CardHeader title="チャンネル登録者数" />
+            <Typography variant="h3">
+              {channels[0]?.subscriberCount || 100000}
+            </Typography>
+          </Card>
+        </Grid>
+
+        <Grid item xs={6}>
+          <Card valiant="outlined">
+            <CardHeader title="総視聴者数" />
+            <Typography variant="h3">
+              {channels[0]?.subscriberCount || 100000000}
+            </Typography>
+          </Card>
+        </Grid>
+
+        <Grid item xs={6}>
+          <Card valiant="outlined">
+            <CardHeader title="地域" />
+          </Card>
+        </Grid>
+
+          <Card valiant="outlined">
             <CardHeader title="地域" />
             <VictoryPie
               theme={VictoryTheme.material}
@@ -185,24 +228,20 @@ const WithStaticProps = ({
               }}
             />
           </Card>
-        </GridListTile>
 
-        <GridListTile>
-          <Card>
-            <CardHeader title="年齢・男女比" />
-            <AgeAndGenderChart data={dataAgeAndGender} />
-          </Card>
-        </GridListTile>
+        <Card>
+          <CardHeader title="年齢・男女比" />
+          <AgeAndGenderChart data={dataAgeAndGender} />
+        </Card>
 
-        <GridListTile>
+        <Grid item xs={6}>
           <Card>
             <CardHeader title="曜日・時間ごとの視聴率" />
             {/* <WeekHourTimeActive data={dataWeekActive} /> */}
-            {/* <VictoryChart
+            <VictoryChart
               theme={VictoryTheme.material}
               domain={{ x: [0, 8], y: [0, 25] }}
             >
-              <VictoryAxis style={{ ticks: { padding: 5 } }} />
               <VictoryScatter
                 style={{ data: { fill: "#c43a31" } }}
                 bubbleProperty="amount"
@@ -210,10 +249,10 @@ const WithStaticProps = ({
                 minBubbleSize={1}
                 data={dataWeekActive}
               />
-            </VictoryChart> */}
+            </VictoryChart>
           </Card>
-        </GridListTile>
-      </GridList>
+        </Grid>
+      </Grid>
     </Layout>
   );
 };
@@ -250,8 +289,8 @@ export const getServerSideProps: GetStaticProps = async () => {
       return accumulator.concat(
         Object.keys(data.items[0].hourTimeActive).map((itemHour) => {
           return {
-            day: DoW[currentValue],
-            hour: Number(itemHour),
+            x: DoW[currentValue],
+            y: Number(itemHour),
             amount:
               data.items[0].weekActive[currentValue] *
               data.items[0].hourTimeActive[itemHour],

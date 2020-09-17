@@ -7,23 +7,7 @@ import theme from '../components/theme';
 import Copyright from '../components/Copyright';
 import Box from '@material-ui/core/Box';
 import GlobalMenu from '../components/GlobalMenu';
-
-// const theme = createMuiTheme({
-//   typography: {
-//     fontFamily: [
-//       '-apple-system',
-//       'BlinkMacSystemFont',
-//       '"Segoe UI"',
-//       'Roboto',
-//       '"Helvetica Neue"',
-//       'Arial',
-//       'sans-serif',
-//       '"Apple Color Emoji"',
-//       '"Segoe UI Emoji"',
-//       '"Segoe UI Symbol"',
-//     ].join(','),
-//   },
-// });
+import { GlobalProvider } from '../../src/utils/context/context';
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
@@ -37,7 +21,7 @@ export default function MyApp(props: AppProps) {
   }, []);
 
   return (
-    <React.Fragment>
+    <GlobalProvider>
       <Head>
         <title>My page</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
@@ -68,6 +52,6 @@ export default function MyApp(props: AppProps) {
 
 
       </ThemeProvider>
-    </React.Fragment>
+    </GlobalProvider>
   );
 }

@@ -13,7 +13,8 @@ import { useChannel } from '../../utils/hooks/useChannel'
 import useFormInput from '../../utils/hooks/useFormInput'
 import ChannelList from '../../components/ChannelList'
 import { item } from '../../types/youtuber/index';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { GlobalProvider, GlobalContext } from '../../utils/context/context';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +46,7 @@ const ValidationTextField = withStyles({
 const YoutuberIndex = () => {
   const classes = useStyles();
   const router = useRouter();
-  const channels: Array<item> = useChannel(router.query);
+  const { channels, setChannelsResult }: Array<item> = useChannel(router.query);
 
   const minSubscriberCount = useFormInput();
   const maxSubscriberCount = useFormInput();
@@ -80,7 +81,10 @@ const YoutuberIndex = () => {
   if (minViewCount.value) query.minViewCount = minViewCount.value;
   if (maxViewCount.value) query.maxViewCount = maxViewCount.value;
 
-  const submit = () => {
+  const context = useContext(GlobalContext);
+  const submit = (res) => {
+    console.log('--------------------------', res);
+    context.setChannelsResult(res);
     Router.push({
       pathname: '/youtuber',
       query,
@@ -88,151 +92,153 @@ const YoutuberIndex = () => {
   }
 
   return (
-    <Container maxWidth="md">
-      <Layout title="Home | Jucy">
-        <div className={classes.mainContainer}>
-          <Typography variant="body2" color="textPrimary">
-            チャンネル登録者数
-          </Typography>
-          <ValidationTextField
-            className={classes.rightSpace}
-            variant="outlined"
-            label="min"
-            {...minSubscriberCount}
-          />
-          <ValidationTextField
-            variant="outlined"
-            label="max"
-            {...maxSubscriberCount}
-          />
+    <GlobalContext.Provider value={{ channels, setChannelsResult }}>
+      <Container maxWidth="md">
+        <Layout title="Home | Jucy">
+          <div className={classes.mainContainer}>
+            <Typography variant="body2" color="textPrimary">
+              チャンネル登録者数
+            </Typography>
+            <ValidationTextField
+              className={classes.rightSpace}
+              variant="outlined"
+              label="min"
+              {...minSubscriberCount}
+            />
+            <ValidationTextField
+              variant="outlined"
+              label="max"
+              {...maxSubscriberCount}
+            />
+
+            {/* スペース用に適当に入れた */}
+            <Box mt={2}></Box>
+
+            <Typography variant="body2" color="textPrimary">
+              総視聴回数
+            </Typography>
+            <ValidationTextField
+              className={classes.rightSpace}
+              variant="outlined"
+              label="min"
+              {...minViewCount}
+            />
+            <ValidationTextField
+              variant="outlined"
+              label="max"
+              {...maxViewCount}
+            />
+
+            {/* スペース用に適当に入れた */}
+            <Box mt={2}></Box>
+
+            <Typography variant="body2" color="textPrimary">
+              おすすめカテゴリ
+            </Typography>
+            <FormGroup row>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.japanese}
+                    onChange={handleChangeCheckBox}
+                    name="japanese"
+                  />
+                }
+                label="和食"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.european}
+                    onChange={handleChangeCheckBox}
+                    name="european"
+                  />
+                }
+                label="洋食"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.chinese}
+                    onChange={handleChangeCheckBox}
+                    name="chinese"
+                  />
+                }
+                label="中華"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.ramen}
+                    onChange={handleChangeCheckBox}
+                    name="ramen"
+                  />
+                }
+                label="ラーメン"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.cafe}
+                    onChange={handleChangeCheckBox}
+                    name="cafe"
+                  />
+                }
+                label="カフェ"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.sweet}
+                    onChange={handleChangeCheckBox}
+                    name="sweet"
+                  />
+                }
+                label="スイーツ"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.chili}
+                    onChange={handleChangeCheckBox}
+                    name="chili"
+                  />
+                }
+                label="激辛"
+              />
+            </FormGroup>
+
+            {/* スペース用に適当に入れた */}
+            <Box mt={1}></Box>
+
+            <Typography variant="body1" color="textPrimary">
+              フリーワード
+            </Typography>
+            <ValidationTextField variant="outlined" {...baseKeyword} />
+
+            {/* スペース用に適当に入れた */}
+            <Box mt={2}> </Box>
+
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={submit}
+              size="large"
+            >
+              検索する
+            </Button>
+          </div>
 
           {/* スペース用に適当に入れた */}
-          <Box mt={2}></Box>
+          <Box mt={5}></Box>
 
-          <Typography variant="body2" color="textPrimary">
-            総視聴回数
+          <Typography variant="h4" component="h1" gutterBottom>
+            チャンネル検索結果
           </Typography>
-          <ValidationTextField
-            className={classes.rightSpace}
-            variant="outlined"
-            label="min"
-            {...minViewCount}
-          />
-          <ValidationTextField
-            variant="outlined"
-            label="max"
-            {...maxViewCount}
-          />
-
-          {/* スペース用に適当に入れた */}
-          <Box mt={2}></Box>
-
-          <Typography variant="body2" color="textPrimary">
-            おすすめカテゴリ
-          </Typography>
-          <FormGroup row>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={state.japanese}
-                  onChange={handleChangeCheckBox}
-                  name="japanese"
-                />
-              }
-              label="和食"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={state.european}
-                  onChange={handleChangeCheckBox}
-                  name="european"
-                />
-              }
-              label="洋食"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={state.chinese}
-                  onChange={handleChangeCheckBox}
-                  name="chinese"
-                />
-              }
-              label="中華"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={state.ramen}
-                  onChange={handleChangeCheckBox}
-                  name="ramen"
-                />
-              }
-              label="ラーメン"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={state.cafe}
-                  onChange={handleChangeCheckBox}
-                  name="cafe"
-                />
-              }
-              label="カフェ"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={state.sweet}
-                  onChange={handleChangeCheckBox}
-                  name="sweet"
-                />
-              }
-              label="スイーツ"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={state.chili}
-                  onChange={handleChangeCheckBox}
-                  name="chili"
-                />
-              }
-              label="激辛"
-            />
-          </FormGroup>
-
-          {/* スペース用に適当に入れた */}
-          <Box mt={1}></Box>
-
-          <Typography variant="body1" color="textPrimary">
-            フリーワード
-          </Typography>
-          <ValidationTextField variant="outlined" {...baseKeyword} />
-
-          {/* スペース用に適当に入れた */}
-          <Box mt={2}> </Box>
-
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={submit}
-            size="large"
-          >
-            検索する
-          </Button>
-        </div>
-
-        {/* スペース用に適当に入れた */}
-        <Box mt={5}></Box>
-
-        <Typography variant="h4" component="h1" gutterBottom>
-          チャンネル検索結果
-        </Typography>
-        {channels && <ChannelList items={channels} />}
-      </Layout>
-    </Container>
+          {channels && <ChannelList items={channels} />}
+        </Layout>
+      </Container>
+    </GlobalContext.Provider>
   );
 }
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/router'
 
 const idFetcher = async (url: string) => {
@@ -24,6 +24,8 @@ const chFetcher = async (url: string) => {
       description: cur.snippet.description || "",
       subscriberCount: parseInt(cur.statistics.subscriberCount) || 0,
       viewCount: parseInt(cur.statistics.viewCount) || 0,
+      videoCount: parseInt(cur.statistics.videoCount) || 0,
+      commentCount: parseInt(cur.statistics.commentCount) || 0,
     }
     acc.push(obj);
     return acc;
@@ -73,7 +75,11 @@ const useChannel = (query: {}) => {
     fetch(searchURL).then(data => setChannels(data));
   }, [queryJsonString]);
 
-  return channels;
+  const setChannelsResult = useCallback((results: Array<Object>) => {
+    setChannels(results);
+  }, []);
+
+  return { channels, setChannelsResult };
 }
 
 export { useChannel }

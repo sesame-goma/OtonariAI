@@ -2,16 +2,14 @@ import { Theme, makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    paddingTop: theme.spacing(10),
-    paddingBottom: theme.spacing(10),
+    padding: theme.spacing(10),
     // スクロール禁止のため
     overflow: 'hidden',
     display: 'flex',
-    flexDirection: 'column',
-    flex: 1,
+    flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100vw',
+    width: '80vw',
   },
   bottomAdjuster: {
     marginBottom: theme.spacing(5),
