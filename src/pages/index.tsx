@@ -118,9 +118,15 @@ const IndexPage = () => {
       <div className={classes.restaurantContainer}>
         <div style={{width: 900, margin: 'auto'}}>
           <div style={{marginTop: 20, marginBottom: 30}}>
-            <Typography variant="h4" component="h2" gutterBottom>
-              飲食店のユーザーは、インフルエンサーを探すことができます。
-            </Typography>
+            <div style={{textAlign: 'center'}}>
+              <img src="/chef.png" style={{height: 100, marginBottom: 0,}} />
+              <Typography variant="h4" component="h2" gutterBottom style={{textAlign: 'center', marginBottom: 20}}>
+                飲食店のみなさん
+              </Typography>
+              <Typography variant="h5" component="h2" gutterBottom>
+                飲食店のユーザーは、インフルエンサーを探すことができます。
+              </Typography>
+            </div>
           </div>
           <div>
             <Grid container spacing={3}>
@@ -140,7 +146,7 @@ const IndexPage = () => {
               </Grid>
               <Grid item xs={4}>
                 <SimpleCard
-                  src="/youtube.png"
+                  src="/handshake.png"
                   title="3. 依頼する"
                   body={`インフルエンサーに食レポを依頼しましょう。\nJucyに登録しているYoutuberが対象になります。`}
                 />
@@ -159,22 +165,28 @@ const IndexPage = () => {
       <div className={classes.youtuberContainer}>
         <div style={{width: 900, margin: 'auto'}}>
           <div style={{marginTop: 20, marginBottom: 30}}>
-            <Typography variant="h4" component="h2" gutterBottom>
-              インフルエンサーは、依頼を待つことができます。
-            </Typography>
+            <div style={{textAlign: 'center'}}>
+              <img src="/vlogger.png" style={{height: 100, marginBottom: 0,}} />
+              <Typography variant="h4" component="h2" gutterBottom style={{marginBottom: 20}}>
+                インフルエンサーのみなさん
+              </Typography>
+              <Typography variant="h5" component="h2" gutterBottom>
+                インフルエンサーは、依頼を待つことができます。
+              </Typography>
+            </div>
           </div>
           <div>
             <Grid container spacing={3}>
               <Grid item xs={4}>
                 <SimpleCard
-                  src="/search.png"
+                  src="/key.png"
                   title="1. ログインする"
                   body={`Jucyにログインしましょう。\nGoogleアカウントと、YoutubeチャンネルIDでログインできます。`}
                 />
               </Grid>
               <Grid item xs={4}>
                 <SimpleCard
-                  src="/list.png"
+                  src="/talk.png"
                   title="2. 依頼を受ける"
                   body={`飲食店から食レポ依頼を受けられます。\n依頼は一覧で表示することができます。`}
                 />
