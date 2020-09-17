@@ -225,6 +225,7 @@ const WithStaticProps = ({
           </Card>
         </Grid>
 
+        <Grid item xs={3}>
           <Card valiant="outlined">
             <CardHeader title="地域" />
             <PieChart width={300} height={300}>
@@ -238,15 +239,16 @@ const WithStaticProps = ({
               <Tooltip />
             </PieChart>
           </Card>
+        </Grid>
 
-        <GridListTile>
+        <Grid item xs={4}>
           <Card>
             <CardHeader title="年齢・男女比" />
-
             <AgeAndGenderChart data={dataAgeAndGender} />
           </Card>
-        </GridListTile>
-        <GridListTile>
+        </Grid>
+
+        <Grid item xs={8}>
           <Card>
             <CardHeader title="曜日・時間ごとの視聴率" />
             <WeekHourTimeActive data={dataWeekActive} />

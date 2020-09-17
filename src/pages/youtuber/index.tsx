@@ -83,7 +83,6 @@ const YoutuberIndex = () => {
 
   const context = useContext(GlobalContext);
   const submit = (res) => {
-    console.log('--------------------------', res);
     context.setChannelsResult(res);
     Router.push({
       pathname: '/youtuber',
