@@ -19,7 +19,7 @@ const styles = {
   },
   root: {
     flexGrow: 1,
-    marginBottom: 80,
+    marginBottom: 60,
   },
   appBar: {
     boxShadow: 'none',

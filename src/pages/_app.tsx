@@ -48,24 +48,22 @@ export default function MyApp(props: AppProps) {
         <header>
           <GlobalMenu />
         </header>
-        <Container maxWidth="md">
-          {pageProps.top
-          ? (
-            <Box>
-              <Component {...pageProps} />
-            </Box>
-          )
-          : (
-            <Box my={4}>
-              <Component {...pageProps} />
-            </Box>
-          )}
-          <footer>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
-          </footer>
-        </Container>
+        {pageProps.top
+        ? (
+          <Box>
+            <Component {...pageProps} />
+          </Box>
+        )
+        : (
+          <Box my={4}>
+            <Component {...pageProps} />
+          </Box>
+        )}
+        <footer>
+          <Box mt={5}>
+            <Copyright />
+          </Box>
+        </footer>
 
 
 
