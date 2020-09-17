@@ -12,18 +12,22 @@ import {
 } from "victory";
 
 import {
-  BarChart, Bar,
-  ScatterChart, Scatter,
-
+  BarChart,
+  Bar,
+  ScatterChart,
+  Scatter,
   Cell,
   XAxis,
   YAxis,
+  ZAxis,
   CartesianGrid,
   Tooltip,
-  Legend
-} from 'recharts';
+  Legend,
+  PieChart,
+  Pie,
+} from "recharts";
 
-import { 
+import {
   Card,
   CardHeader,
   Grid,
@@ -93,16 +97,20 @@ const AgeAndGenderChart = ({ data }: dataAgeAndGender) => {
 };
 
 const WeekHourTimeActive = ({ data }: dataWeekActive) => {
-   const renderTooltip = (props) => {
+  const renderTooltip = (props) => {
     const { active, payload } = props;
 
     if (active && payload && payload.length) {
       const data = payload[0] && payload[0].payload;
 
       return (
-        <div style={{
-          backgroundColor: '#fff', border: '1px solid #999', margin: 0, padding: 10,
-        }}
+        <div
+          style={{
+            backgroundColor: "#fff",
+            border: "1px solid #999",
+            margin: 0,
+            padding: 10,
+          }}
         >
           <p>
             <span>時間帯: </span>
@@ -110,68 +118,67 @@ const WeekHourTimeActive = ({ data }: dataWeekActive) => {
           </p>
           <p>
             <span>視聴率: </span>
-            {data.amount}
+            {data.value}
           </p>
         </div>
       );
     }
 
     return null;
-  }
-
-  const parseDomain = () => [
-    0,
-    Math.max(
-      Math.max.apply(null, data01.map(entry => entry.value)),
-      Math.max.apply(null, data02.map(entry => entry.value))
-    ),
-  ];
+  };
 
   const domain = [0, Math.max()];
   const range = [16, 225];
+  const WoD = ["月", "火", "水", "木", "金", "土", "日"];
+  const newdata = data.filter((dayItem) => {
+    if (dayItem.day === 0) return true;
+  });
   return (
     <div>
-      {data.map((item) => (
-        <ScatterChart
-          width={800}
-          height={60}
-          margin={{
-            top: 10,
-            right: 0,
-            bottom: 0,
-            left: 0,
-          }}
-        >
-          <XAxis
-            type="category"
-            dataKey="hour"
-            interval={0}
-            tick={{ fontSize: 0 }}
-            tickLine={{ transform: "translate(0, -6)" }}
-          />
-          <YAxis
-            type="number"
-            dataKey="index"
-            name={item.day}
-            height={10}
-            width={80}
-            tick={false}
-            tickLine={false}
-            axisLine={false}
-            label={{ value: item.day, position: "insideRight" }}
-          />
-          <ZAxis type="number" dataKey="value" domain={domain} range={range} />
-          <Tooltip
-            cursor={{ strokeDasharray: "3 3" }}
-            wrapperStyle={{ zIndex: 100 }}
-            content={this.renderTooltip}
-          />
-          <Scatter data={data01} fill="#8884d8" />
-        </ScatterChart>
-      ))}
+      {/* {WoD.map((item) => {
+        const oneDayData = data.filter((dayItem) => {
+          if (dayItem.day === WoD.indexOf(item)) return true;
+        }); */}
+      <ScatterChart
+        width={730}
+        height={350}
+        margin={{
+          top: 10,
+          right: 0,
+          bottom: 0,
+          left: 0,
+        }}
+      >
+        <XAxis
+          type="number"
+          dataKey="hour"
+          name="hour"
+          interval={0}
+          tick={{ fontSize: 0 }}
+          tickLine={{ transform: "translate(0, -6)" }}
+        />
+        <YAxis
+          type="number"
+          dataKey="day"
+          height={50}
+          width={80}
+          tick={false}
+          tickLine={false}
+          axisLine={false}
+          label={{ value: "月", position: "insideRight" }}
+        />
+
+        <ZAxis type="number" dataKey="value" domain={domain} range={range} />
+        <Tooltip
+          cursor={{ strokeDasharray: "3 3" }}
+          wrapperStyle={{ zIndex: 100 }}
+          content={renderTooltip}
+        />
+        <Scatter data={data} fill="#8884d8" />
+      </ScatterChart>
     </div>
   );
-}
+};
 
 const WithStaticProps = ({
   items,
@@ -220,36 +227,29 @@ const WithStaticProps = ({
 
           <Card valiant="outlined">
             <CardHeader title="地域" />
-            <VictoryPie
-              theme={VictoryTheme.material}
-              data={dataCountries}
-              animate={{
-                duration: 2000,
-              }}
-            />
+            <PieChart width={300} height={300}>
+              <Pie
+                isAnimationActive={false}
+                data={dataCountries}
+                outerRadius={80}
+                fill="#8884d8"
+                label
+              />
+              <Tooltip />
+            </PieChart>
           </Card>
 
-        <Card>
-          <CardHeader title="年齢・男女比" />
-          <AgeAndGenderChart data={dataAgeAndGender} />
-        </Card>
+        <GridListTile>
+          <Card>
+            <CardHeader title="年齢・男女比" />
 
-        <Grid item xs={6}>
+            <AgeAndGenderChart data={dataAgeAndGender} />
+          </Card>
+        </GridListTile>
+        <GridListTile>
           <Card>
             <CardHeader title="曜日・時間ごとの視聴率" />
-            {/* <WeekHourTimeActive data={dataWeekActive} /> */}
-            <VictoryChart
-              theme={VictoryTheme.material}
-              domain={{ x: [0, 8], y: [0, 25] }}
-            >
-              <VictoryScatter
-                style={{ data: { fill: "#c43a31" } }}
-                bubbleProperty="amount"
-                maxBubbleSize={5}
-                minBubbleSize={1}
-                data={dataWeekActive}
-              />
-            </VictoryChart>
+            <WeekHourTimeActive data={dataWeekActive} />
           </Card>
         </Grid>
       </Grid>
@@ -264,40 +264,45 @@ export const getServerSideProps: GetStaticProps = async () => {
   const dataCountries: Array<object> = data.items[0].viewPercentWithCountry.map(
     (item: Array<string | number>) => {
       return {
-        x: Country[item[0]],
-        y: item[1],
+        name: Country[item[0]],
+        value: item[1],
       };
     }
   );
 
-  const dataAgeAndGender = data.items[0].ageAndGenderWithViewPercent.reduce((
-    acc: dataGender, curVal: AgeAndGender
-  ) => {
-    if (curVal[1] == 'female') {
-      acc.push({
-        name: curVal[0].slice(3, 6),
-        female: curVal[2],
-      });
-    } else {
-      acc[acc.length -1]['male'] = curVal[2];
-    }
-    return acc;
-  }, []);
+  const dataAgeAndGender = data.items[0].ageAndGenderWithViewPercent.reduce(
+    (acc: dataGender, curVal: AgeAndGender) => {
+      if (curVal[1] == "female") {
+        acc.push({
+          name: curVal[0].slice(3, 6),
+          female: curVal[2],
+        });
+      } else {
+        acc[acc.length - 1]["male"] = curVal[2];
+      }
+      return acc;
+    },
+    []
+  );
 
+  const DoW_EN = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
   const dataWeekActive = Object.keys(data.items[0].weekActive).reduce(
     (accumulator, currentValue) => {
       return accumulator.concat(
         Object.keys(data.items[0].hourTimeActive).map((itemHour) => {
           return {
-            x: DoW[currentValue],
-            y: Number(itemHour),
-            amount:
+            day: DoW_EN.indexOf(currentValue),
+            hour: Number(itemHour),
+            value:
               data.items[0].weekActive[currentValue] *
-              data.items[0].hourTimeActive[itemHour],
+              data.items[0].hourTimeActive[itemHour] *
+              10000,
           };
         })
       );
-  }, []);
+    },
+    []
+  );
   return {
     props: {
       items,
