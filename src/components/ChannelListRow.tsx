@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+import Link from '../components/link'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -14,20 +15,25 @@ import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 import { item } from '../types/youtuber/index';
 
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      width: '100%',
+    container: {
+      '&:hover': {
+        backgroundColor: theme.palette.grey[50],
+     },
     },
     inline: {
       display: 'inline',
     },
     divider: {
-      marginTop: 10,
+      paddingTop: 0,
       marginBottom: 10,
     },
     nested: {
       marginLeft: 50,
+    },
+    listRow: {
+      paddingBottom: 10,
     }
   }),
 );
@@ -40,32 +46,31 @@ type Props = {
 export default function ChannelListRow({item}: Props) {
   const classes = useStyles();
   return (
-    <React.Fragment key={item.key}>
+    <div className={classes.container} key={item.key}>
       <Divider component="li" className={classes.divider}/>
-      <ListItem alignItems="flex-start">
-      {/* <ListItem alignItems="flex-start" button onClick={handleClick}> */}
-        <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src={item.thumbnail} />
-        </ListItemAvatar>
-        <ListItemText
-          primary={item.title}
-          secondary={
-            <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                {item.description}
-              </Typography>
-            </React.Fragment>
-          }
-        />
-      {/* {open ? <ExpandLess /> : <ExpandMore />} */}
-      </ListItem>
-      {/* <Collapse in={open} timeout="auto" unmountOnExit> */}
-        <List component="div" disablePadding>
+      <div className={classes.listRow}>
+        <Link href="/analytics" underline="none" color="inherit">
+          <ListItem alignItems="flex-start" >
+          {/* <ListItem alignItems="flex-start" button onClick={handleClick}> */}
+            <ListItemAvatar>
+              <Avatar alt="Remy Sharp" src={item.thumbnail} />
+            </ListItemAvatar>
+            <ListItemText
+              primary={item.title}
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                  >
+                    {item.description}
+                  </Typography>
+                </React.Fragment>
+              }
+            />
+          </ListItem>
           <ListItem className={classes.nested}>
             <ListItemIcon>
               <VisibilityIcon />
@@ -78,8 +83,8 @@ export default function ChannelListRow({item}: Props) {
             </ListItemIcon>
             <ListItemText primary={`チャンネル登録者数: ${parseInt(item.subscriberCount).toLocaleString()}人`} />
           </ListItem>
-        </List>
-      {/* </Collapse> */}
-    </React.Fragment>
+        </Link>
+      </div>
+    </div>
   );
 }
