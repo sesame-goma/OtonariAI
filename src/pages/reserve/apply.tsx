@@ -13,6 +13,7 @@ import {
   Typography,
   TextField,
 } from "@material-ui/core";
+import { useRouter } from "next/router";
 
 type Message = {
   content: string;
@@ -50,6 +51,10 @@ const ApplyPage = () => {
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);
 
+  const router = useRouter();
+  const query = router.query;
+  console.log(query);
+
   const onMessageChange = ({
     target: { name, value },
   }: React.ChangeEvent<HTMLImputElement>) => {
@@ -83,6 +88,11 @@ const ApplyPage = () => {
       <Typography variant="h4">予約申し込み</Typography>
       <hr />
       <Typography variant="h6">インフルエンサーの情報</Typography>
+      <Typography variant="body1">{`チャンネル名:${query.name}`}</Typography>
+      <Typography variant="body1">{`登録者数:${query.subscribe}`}</Typography>
+      <Typography variant="body1">{`総再生回数:${query.viewCount}`}</Typography>
+      <Typography variant="body1">{`概要:${query.description}`}</Typography>
+
       <hr />
       <Typography variant="h6">飲食店の入力項目</Typography>
       <TextField id="standard-basic" label="件名" />
