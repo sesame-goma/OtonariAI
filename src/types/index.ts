@@ -93,7 +93,13 @@ export type Data = {
 
 export type Message = {
   id: string;
+  title: string;
   content: string;
-  isChecked?: boolean | null;
-  created_at: string;
+  address: string;
+  eateryId: string;
+  eateryName: string;
+  youtuberId: string;
+  youtuberName: string;
+  processed: boolean;
+  reservedAt: string;
 };
