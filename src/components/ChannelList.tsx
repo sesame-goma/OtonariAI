@@ -28,7 +28,7 @@ export default function ChannelList({items}: Props) {
 
   return (
     <List className={classes.root}>
-      {items && items.map((item: item) =>
+      {items && Array.isArray(items) && items.map((item: item) =>
         <ChannelListRow item={item} key={item.key}/>
       )}
     </List>

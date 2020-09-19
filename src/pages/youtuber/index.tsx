@@ -82,8 +82,8 @@ const YoutuberIndex = () => {
   if (maxViewCount.value) query.maxViewCount = maxViewCount.value;
 
   const context = useContext(GlobalContext);
-  const submit = (res) => {
-    context.setChannelsResult(res);
+  context.setChannelsResult(channels);
+  const submit = () => {
     Router.push({
       pathname: '/youtuber',
       query,

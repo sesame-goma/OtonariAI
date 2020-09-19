@@ -1,4 +1,5 @@
 import { GetStaticProps } from "next";
+import { useRouter } from 'next/router'
 import { useState, useContext, useEffect } from 'react';
 import R from 'ramda';
 import {
@@ -180,48 +181,62 @@ const WeekHourTimeActive = ({ data }: dataWeekActive) => {
   );
 };
 
-const WithStaticProps = ({
+const Analytics = ({
   items,
   dataCountries,
   dataAgeAndGender,
   dataWeekActive,
 }: Props) => {
   const { channels } = useContext(GlobalContext);
-  if(!channels) { return; }
-  console.log('おおおおおおおおおおおおおおおあじゃじゃじゃｊ', channels);
   const classes = useStyles();
+  const router = useRouter();
+  useEffect(() => {
+    !channels && router.push('/');
+  }, [channels]);
   return (
     <Layout title="Analytics | Jucy">
       <Grid classes={classes.root} container spacing={10}>
         <Grid item xs={12}>
           <Grid container xs={12}>
-            <Avatar alt="Remy Sharp" src={channels[0]?.thumbnail || ''} />
+            <Avatar alt="Remy Sharp" src={channels?.thumbnail || ''} />
             <Typography variant="h2">
-              {channels[0].title}
+              {channels?.title}
             </Typography>
           </Grid>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <Card valiant="outlined">
             <CardHeader title="チャンネル登録者数" />
             <Typography variant="h3">
-              {channels[0]?.subscriberCount || 100000}
+              {channels?.subscriberCount || 100000}
             </Typography>
           </Card>
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <Card valiant="outlined">
             <CardHeader title="総視聴者数" />
             <Typography variant="h3">
-              {channels[0]?.subscriberCount || 100000000}
+              {channels?.viewCount || 100000000}
             </Typography>
           </Card>
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <Card valiant="outlined">
-            <CardHeader title="地域" />
+            <CardHeader title="動画投稿数" />
+            <Typography variant="h3">
+              {channels?.videoCount || 10000}
+            </Typography>
+          </Card>
+        </Grid>
+
+        <Grid item xs={4}>
+          <Card valiant="outlined">
+            <CardHeader title="総コメント数" />
+            <Typography variant="h3">
+              {channels?.commentCount || 10000}
+            </Typography>
           </Card>
         </Grid>
 
@@ -315,4 +330,4 @@ export const getServerSideProps: GetStaticProps = async () => {
   };
 };
 
-export default WithStaticProps;
+export default Analytics;
