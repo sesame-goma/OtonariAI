@@ -49,10 +49,7 @@ export default function ChannelListRow({ item }: Props) {
     Router.push({
       pathname: "/reserve/apply",
       query: {
-        name: item.title,
-        subscribe: item.subscriberCount,
-        viewCount: item.viewCount,
-        description: item.description,
+        id: item.id,
       },
     });
   };

@@ -7,6 +7,8 @@ import "firebase/firestore";
 import { db } from "../../utils/firebase/initFirebase";
 import { Message } from "../../types/index";
 import { useUser } from "../../utils/firebase/useUser";
+import DateRangeOutlinedIcon from '@material-ui/icons/DateRangeOutlined';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Button,
   ListItemText,
@@ -22,6 +24,25 @@ import {
   Box,
 } from "@material-ui/core";
 
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 

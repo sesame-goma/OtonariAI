@@ -2,10 +2,21 @@ import Link from "next/link";
 import React, { useState } from "react";
 import * as firebase from "firebase";
 import "firebase/firestore";
+import Avatar from '@material-ui/core/Avatar';
 import Layout from "../../components/Layout";
+import Paper from '@material-ui/core/Paper';
 import initFirebase from "../../utils/firebase/initFirebase";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import { useChannel } from '../../utils/hooks/useChannel';
 import { useUser } from "../../utils/firebase/useUser";
 import { makeStyles } from "@material-ui/core/styles";
+import useFormInput from '../../utils/hooks/useFormInput'
+import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
+
+import useSWR from 'swr';
 import {
   Modal,
   Button,
@@ -14,6 +25,8 @@ import {
   TextField,
 } from "@material-ui/core";
 import { useRouter } from "next/router";
+import DateRangeOutlinedIcon from '@material-ui/icons/DateRangeOutlined';
+import { QueryBuilder } from "@material-ui/icons";
 
 type Message = {
   content: string;
@@ -31,43 +44,79 @@ function getModalStyle() {
 
 const useStyles = makeStyles((theme) => ({
   paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  title: {
+    marginBottom: 5,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  formContainer: {
+    marginTop: 30,
+  },
+  modal: {
     position: "absolute",
     width: 400,
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-  },
+    textAlign: 'center',
+  }
 }));
+
+const fetcher = (url: string) =>
+  fetch(url, {
+    method: 'GET',
+    headers: new Headers({ 'Content-Type': 'application/json' }),
+  }).then((res) => res.json())
 
 const ApplyPage = () => {
   const db = initFirebase.firestore();
-  const [input, setMessage] = useState<Message>({
-    content: "",
-  });
+
+  // フォーム
+  const title = useFormInput('');
+  const content = useFormInput('');
+  const address = useFormInput('');
+
+  // モーダル
   const [open, setOpen] = useState(false);
+  const [modalStyle] = useState(getModalStyle);
 
   const { user } = useUser();
   const classes = useStyles();
-  const [modalStyle] = useState(getModalStyle);
 
   const router = useRouter();
-  const query = router.query;
-  console.log(query);
 
-  const onMessageChange = ({
-    target: { name, value },
-  }: React.ChangeEvent<HTMLImputElement>) => {
-    setMessage((prev) => ({ ...prev, [name]: value }));
-  };
+  // チャンネル情報
+  const { data, error } = useSWR(
+    `https://www.googleapis.com/youtube/v3/channels?key=${process.env.YOUTUBE_API_KEY}&id=${router.query.id}&part=id,snippet,statistics&maxResults=1&regionCode=jp`,
+    fetcher
+  );
 
   const submitMessage = () => {
-    if (input.content === "") return;
+    // 後々のundefチェックをマジでやりたくないので全部必須項目にしたろｗ
+    if (title.value === '' || content.value === '' || address.value === '') return;
+
     const data = {
-      content: input.content,
-      user_id: user.id,
-      isChecked: null,
-      created_at: firebase.firestore.FieldValue.serverTimestamp(),
+      title: title.value,
+      content: content.value,
+      address: address.value,
+      toId: router.query.id,
+      fromId: user.id,
+      reservedAt: firebase.firestore.FieldValue.serverTimestamp(),
     };
     db.collection("reservation").add(data);
     setOpen(true);
@@ -76,50 +125,109 @@ const ApplyPage = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
   const body = (
-    <div style={modalStyle} className={classes.paper}>
+    <div style={modalStyle} className={classes.modal}>
+      <Avatar className={classes.avatar} style={{margin: 'auto'}}>
+        <CheckOutlinedIcon />
+      </Avatar>
       <h2 id="simple-modal-title">メッセージを送信しました</h2>
-      <p id="simple-modal-description">ここに細かなメッセージ</p>
-      <Button onClick={handleClose}>閉じる</Button>
+      <p id="simple-modal-description">インフルエンサーからの返信をお待ち下さい。</p>
+      <Button variant="contained" onClick={handleClose}>閉じる</Button>
     </div>
   );
+
   return (
     <Layout title="Resevation Apply | Next.js + TypeScript Example">
-      <Typography variant="h4">予約申し込み</Typography>
-      <hr />
-      <Typography variant="h6">インフルエンサーの情報</Typography>
-      <Typography variant="body1">{`チャンネル名:${query.name}`}</Typography>
-      <Typography variant="body1">{`登録者数:${query.subscribe}`}</Typography>
-      <Typography variant="body1">{`総再生回数:${query.viewCount}`}</Typography>
-      <Typography variant="body1">{`概要:${query.description}`}</Typography>
+      {console.log('data', data)}
+      <div className={classes.paper}>
+
+      <Avatar className={classes.avatar}>
+        <DateRangeOutlinedIcon />
+      </Avatar>
+
+      <Typography component="h1" variant="h5" className={classes.title}>食レポを依頼する</Typography>
+
+      {(data && data.items.length !== -1) && (
+        <Paper>
+          <List>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar variant="square" alt="channel" src={data.items[0].snippet.thumbnails.default.url} />
+              </ListItemAvatar>
+              <ListItemText
+                primary={data.items[0].snippet.title}
+                secondary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      color="textSecondary"
+                      style={{display: 'block'}}
+                    >
+                      {`チャンネル登録者数 ${data.items[0].statistics.subscriberCount} 人`}
+                    </Typography>
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      style={{display: 'block'}}
+                      color="textSecondary"
+                    >
+                      {`総視聴回数 ${data.items[0].statistics.viewCount} 回`}
+                    </Typography>
+                  </React.Fragment>
+                }
+              />
+            </ListItem>
+          </List>
+        </Paper>
+      )}
 
       <hr />
-      <Typography variant="h6">飲食店の入力項目</Typography>
-      <TextField id="standard-basic" label="件名" />
-      <br />
-      <TextareaAutosize
-        name="content"
-        onChange={onMessageChange}
-        placeholder="メッセージ"
-        rowsMin={5}
-      ></TextareaAutosize>
-      <br />
-      <Button variant="contained" color="primary" onClick={submitMessage}>
-        申し込み
-      </Button>
-      <p>
-        <Link href="/">
-          <a>Go home</a>
-        </Link>
-      </p>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        {body}
-      </Modal>
+      <div className={classes.formContainer}>
+        <Typography variant="h6">依頼フォーム</Typography>
+            <TextField
+              id="standard-basic"
+              label="件名"
+              fullWidth
+              required
+              style={{marginBottom: 15}}
+              {...title}
+            />
+            <TextField
+              id="standard-basic"
+              label="連絡先メールアドレス"
+              fullWidth
+              required
+              style={{marginBottom: 15}}
+              {...address}
+            />
+            <TextField
+              id="standard-multiline-static"
+              label="依頼内容"
+              multiline
+              rows={4}
+              fullWidth
+              required
+              style={{marginBottom: 15}}
+              {...content}
+            />
+            <div style={{textAlign: 'center'}}>
+              <Button variant="contained" color="primary" onClick={submitMessage}>
+                申し込み
+              </Button>
+            </div>
+      </div>
+
+      </div>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          {body}
+        </Modal>
     </Layout>
   );
 };
