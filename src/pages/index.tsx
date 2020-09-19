@@ -156,7 +156,7 @@ const IndexPage = () => {
           </div>
           <div style={{marginTop: 30}}>
             <Link href="/eatery/login">
-              <Button variant="contained" color="primary" disableElevation>
+              <Button variant="contained" color="secondary" disableElevation>
                 飲食店様ログイン
               </Button>
             </Link>
@@ -204,7 +204,7 @@ const IndexPage = () => {
           <div style={{marginTop: 30}}>
             <Link href="/youtuber/login">
               <Button variant="contained" color="primary" disableElevation>
-                インフルエンサーログイン
+                インフルエンサー様ログイン
               </Button>
             </Link>
           </div>
