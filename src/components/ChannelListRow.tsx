@@ -38,6 +38,10 @@ const useStyles = makeStyles((theme: Theme) =>
     listRow: {
       paddingBottom: 10,
     },
+    button: {
+      marginTop: 10,
+      marginLeft: 16,
+    },
   })
 );
 
@@ -110,9 +114,11 @@ export default function ChannelListRow({ item }: Props) {
               />
             </ListItem>
           </Link>
-          <Button variant="contained" color="primary" onClick={onPress}>
-            申し込む
-          </Button>
+          <div className={classes.button}>
+            <Button variant="contained" color="secondary" onClick={onPress}>
+              申し込む
+            </Button>
+          </div>
         </div>
       </div>
     </GlobalContext.Provider>

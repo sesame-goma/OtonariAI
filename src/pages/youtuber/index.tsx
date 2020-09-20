@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
   },
   mainContainer: {
-    padding: 20,
+    paddingTop: 30,
+    paddingLeft: 16,
   }
 }));
 
@@ -45,8 +46,8 @@ const YoutuberIndex = () => {
   const minViewCount = useFormInput();
   const maxViewCount = useFormInput();
   let word = String(router.query.keyword).replace(/\(.*/g, '');
-  if (!!word) word = '';
   const baseKeyword = useFormInput(word);
+
   const [state, setState] = useState({
     japanese: false,
     european: false,
