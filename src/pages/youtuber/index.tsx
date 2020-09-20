@@ -22,20 +22,13 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
   },
   mainContainer: {
-    // borderStyle: 'solid',
-    // borderWidth: 3,
-    // borderColor: 'lightBlue',
-
-    padding: 20,
+    paddingTop: 30,
+    paddingLeft: 16,
   }
 }));
 
 const ValidationTextField = withStyles({
   root: {
-    // '& input:valid + fieldset': {
-    //   borderColor: 'lightBlue',
-    //   borderWidth: 2,
-    // },
     '& input:valid:focus + fieldset': {
       borderLeftWidth: 6,
       padding: '4px !important', // override inline-style
@@ -52,7 +45,9 @@ const YoutuberIndex = () => {
   const maxSubscriberCount = useFormInput();
   const minViewCount = useFormInput();
   const maxViewCount = useFormInput();
-  const baseKeyword = useFormInput(router.query.keyword);
+  let word = String(router.query.keyword).replace(/\(.*/g, '');
+  const baseKeyword = useFormInput(word);
+
   const [state, setState] = useState({
     japanese: false,
     european: false,
@@ -66,14 +61,16 @@ const YoutuberIndex = () => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
-  let searchKeyword = baseKeyword.value;
-  if (state.japanese) searchKeyword += ' 和食';
-  if (state.european) searchKeyword += ' 洋食';
-  if (state.chinese) searchKeyword += ' 中華';
-  if (state.ramen) searchKeyword += ' ラーメン';
-  if (state.care) searchKeyword += ' カフェ';
-  if (state.sweet) searchKeyword += ' スイート';
-  if (state.chili) searchKeyword += ' 激辛';
+  let searchKeyword = baseKeyword.value || '';
+  if (Object.keys(state).some(i => state[i]===true)) searchKeyword += ' (';
+  if (state.japanese) searchKeyword += '%7C和食';
+  if (state.european) searchKeyword += '%7C洋食';
+  if (state.chinese) searchKeyword += '%7C中華';
+  if (state.ramen) searchKeyword += '%7Cラーメン';
+  if (state.cafe) searchKeyword += '%7Cカフェ';
+  if (state.sweet) searchKeyword += '%7Cスイート';
+  if (state.chili) searchKeyword += '%7C激辛';
+  if (Object.keys(state).some(i => state[i]===true)) searchKeyword += ')';
 
   let query = { keyword: searchKeyword };
   if (minSubscriberCount.value) query.minSubscriberCount = minSubscriberCount.value;
@@ -102,11 +99,13 @@ const YoutuberIndex = () => {
               className={classes.rightSpace}
               variant="outlined"
               label="min"
+              size="small"
               {...minSubscriberCount}
             />
             <ValidationTextField
               variant="outlined"
               label="max"
+              size="small"
               {...maxSubscriberCount}
             />
 
@@ -120,11 +119,13 @@ const YoutuberIndex = () => {
               className={classes.rightSpace}
               variant="outlined"
               label="min"
+              size="small"
               {...minViewCount}
             />
             <ValidationTextField
               variant="outlined"
               label="max"
+              size="small"
               {...maxViewCount}
             />
 
@@ -213,7 +214,7 @@ const YoutuberIndex = () => {
             <Typography variant="body1" color="textPrimary">
               フリーワード
             </Typography>
-            <ValidationTextField variant="outlined" {...baseKeyword} />
+            <ValidationTextField variant="outlined" size="small" {...baseKeyword} />
 
             {/* スペース用に適当に入れた */}
             <Box mt={2}> </Box>

@@ -1,7 +1,7 @@
 import { GetStaticProps } from "next";
-import { useRouter } from 'next/router'
-import { useState, useContext, useEffect } from 'react';
-import R from 'ramda';
+import { useRouter } from "next/router";
+import { useState, useContext, useEffect } from "react";
+import R from "ramda";
 import {
   VictoryGroup,
   VictoryPie,
@@ -38,22 +38,25 @@ import {
   Typography,
   ListItem,
   Divider,
+  Paper,
+  List as muList,
   ListItemText,
   ListItemAvatar,
   Avatar,
-} from '@material-ui/core';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
-import { Rating } from '@material-ui/lab';
+} from "@material-ui/core";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import SubscriptionsIcon from "@material-ui/icons/Subscriptions";
+import { Rating } from "@material-ui/lab";
 
 import { AgeAndGender } from "../../types";
 import { Data, User } from "../../types";
-import { GlobalContext } from '../../utils/context/context';
+import { GlobalContext } from "../../utils/context/context";
 
 import { Country, Gender, Age, DoW } from "../../types/analytics";
 import { sampleAnalyticData, sampleUserData } from "../../utils/sample-data";
 import Layout from "../../components/Layout";
 import List from "../../components/List";
+import YoutuberInfoPaper from "../../components/YoutuberInfoPaper";
 import { useStyles } from "../analytics/styles";
 
 type Props = {
@@ -97,7 +100,10 @@ const AgeAndGenderChart = ({ data }: dataAgeAndGender) => {
   );
 };
 
-const WeekHourTimeActive = ({ data }: dataWeekActive) => {
+const OneDayChart = (props) => {
+  const { data, max, day } = props;
+  const domain = [0, max];
+  const range = [1, 255];
   const renderTooltip = (props) => {
     const { active, payload } = props;
 
@@ -128,21 +134,12 @@ const WeekHourTimeActive = ({ data }: dataWeekActive) => {
     return null;
   };
 
-  const domain = [0, Math.max()];
-  const range = [16, 225];
-  const WoD = ["月", "火", "水", "木", "金", "土", "日"];
-  const newdata = data.filter((dayItem) => {
-    if (dayItem.day === 0) return true;
-  });
+  data.forEach((item) => delete item.day);
   return (
     <div>
-      {/* {WoD.map((item) => {
-        const oneDayData = data.filter((dayItem) => {
-          if (dayItem.day === WoD.indexOf(item)) return true;
-        }); */}
       <ScatterChart
-        width={730}
-        height={350}
+        width={800}
+        height={60}
         margin={{
           top: 10,
           right: 0,
@@ -155,28 +152,44 @@ const WeekHourTimeActive = ({ data }: dataWeekActive) => {
           dataKey="hour"
           name="hour"
           interval={0}
-          tick={{ fontSize: 0 }}
+          tick={{ fontSize: day === "日" ? 15 : 0 }}
           tickLine={{ transform: "translate(0, -6)" }}
         />
+
         <YAxis
           type="number"
-          dataKey="day"
-          height={50}
+          dataKey="index"
+          height={10}
           width={80}
           tick={false}
           tickLine={false}
           axisLine={false}
-          label={{ value: "月", position: "insideRight" }}
+          label={{ value: day, position: "insideRight" }}
         />
-
         <ZAxis type="number" dataKey="value" domain={domain} range={range} />
-        <Tooltip
-          cursor={{ strokeDasharray: "3 3" }}
-          wrapperStyle={{ zIndex: 100 }}
-          content={renderTooltip}
-        />
         <Scatter data={data} fill="#8884d8" />
       </ScatterChart>
+    </div>
+  );
+};
+
+const WeekHourTimeActive = ({ data }: dataWeekActive) => {
+  const maxValue = Math.max(...data.map((entry) => entry.value));
+  const WoD = ["月", "火", "水", "木", "金", "土", "日"];
+
+  return (
+    <div>
+      {WoD.map((item) => (
+        <div>
+          <OneDayChart
+            data={data.filter((dayItem) => {
+              if (dayItem.day === WoD.indexOf(item)) return true;
+            })}
+            max={maxValue}
+            day={item}
+          />
+        </div>
+      ))}
     </div>
   );
 };
@@ -189,87 +202,124 @@ const Analytics = ({
 }: Props) => {
   const { channels } = useContext(GlobalContext);
   const classes = useStyles();
+  console.log(channels);
   const router = useRouter();
   useEffect(() => {
-    !channels && router.push('/');
+    !channels && router.push("/");
   }, [channels]);
   return (
     <Layout title="Analytics | Jucy">
-      <Grid classes={classes.root} container spacing={10}>
-        <Grid item xs={12}>
-          <Grid container xs={12}>
-            <Avatar alt="Remy Sharp" src={channels?.thumbnail || ''} />
-            <Typography variant="h2">
-              {channels?.title}
+      <div style={{ margin: 20 }}>
+        <Grid classes={classes.root} container spacing={3}>
+          <Grid item xs={12}>
+            <Typography
+              variant="h6"
+              style={{
+                marginTop: 20,
+                borderBottom: "1px solid black",
+                fontWeight: "bold",
+              }}
+            >
+              基本情報
             </Typography>
           </Grid>
-        </Grid>
-        <Grid item xs={4}>
-          <Card valiant="outlined">
-            <CardHeader title="チャンネル登録者数" />
-            <Typography variant="h3">
-              {channels?.subscriberCount || 100000}
+          <Grid item xs={12}>
+            <YoutuberInfoPaper channels={channels} />
+          </Grid>
+          <Grid item xs={3}>
+            <Card valiant="outlined" style={{ padding: 20 }}>
+              <Typography variant="h6" color="textSecondary">
+                チャンネル登録者数
+              </Typography>
+              <Typography variant="h3">
+                {parseInt(channels?.subscriberCount).toLocaleString() || 100000}
+              </Typography>
+            </Card>
+          </Grid>
+
+          <Grid item xs={3}>
+            <Card valiant="outlined" style={{ padding: 20 }}>
+              <Typography variant="h6" color="textSecondary">
+                総視聴者数
+              </Typography>
+              <Typography variant="h3">
+                {parseInt(channels?.viewCount).toLocaleString() || 100000000}
+              </Typography>
+            </Card>
+          </Grid>
+
+          <Grid item xs={3}>
+            <Card valiant="outlined" style={{ padding: 20 }}>
+              <Typography variant="h6" color="textSecondary">
+                動画投稿数
+              </Typography>
+              <Typography variant="h3">
+                {parseInt(channels?.videoCount).toLocaleString() || 10000}
+              </Typography>
+            </Card>
+          </Grid>
+
+          <Grid item xs={3}>
+            <Card valiant="outlined" style={{ padding: 20 }}>
+              <Typography variant="h6" color="textSecondary">
+                総コメント数
+              </Typography>
+              <Typography variant="h3">
+                {parseInt(channels?.commentCount).toLocaleString() || 10000}
+              </Typography>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography
+              variant="h6"
+              style={{
+                marginTop: 20,
+                borderBottom: "1px solid black",
+                fontWeight: "bold",
+              }}
+            >
+              分析グラフ
             </Typography>
-          </Card>
-        </Grid>
+          </Grid>
 
-        <Grid item xs={4}>
-          <Card valiant="outlined">
-            <CardHeader title="総視聴者数" />
-            <Typography variant="h3">
-              {channels?.viewCount || 100000000}
-            </Typography>
-          </Card>
-        </Grid>
+          <Grid item xs={3}>
+            <Card valiant="outlined" style={{ padding: 20 }}>
+              <Typography variant="h6" color="textSecondary">
+                地域
+              </Typography>
+              <PieChart width={300} height={300}>
+                <Pie
+                  isAnimationActive={false}
+                  data={dataCountries}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  label
+                />
+                <Tooltip />
+              </PieChart>
+            </Card>
+          </Grid>
 
-        <Grid item xs={4}>
-          <Card valiant="outlined">
-            <CardHeader title="動画投稿数" />
-            <Typography variant="h3">
-              {channels?.videoCount || 10000}
-            </Typography>
-          </Card>
-        </Grid>
+          <Grid item xs={4}>
+            <Card style={{ padding: 20 }}>
+              <Typography variant="h6" color="textSecondary">
+                年齢・男女比
+              </Typography>
+              <AgeAndGenderChart data={dataAgeAndGender} />
+            </Card>
+          </Grid>
 
-        <Grid item xs={4}>
-          <Card valiant="outlined">
-            <CardHeader title="総コメント数" />
-            <Typography variant="h3">
-              {channels?.commentCount || 10000}
-            </Typography>
-          </Card>
+          <Grid item xs={5}>
+            <Card style={{ padding: 20 }}>
+              <Typography variant="h6" color="textSecondary">
+                曜日・時間ごとの視聴率
+              </Typography>
+              <WeekHourTimeActive data={dataWeekActive} />
+            </Card>
+          </Grid>
         </Grid>
-
-        <Grid item xs={3}>
-          <Card valiant="outlined">
-            <CardHeader title="地域" />
-            <PieChart width={300} height={300}>
-              <Pie
-                isAnimationActive={false}
-                data={dataCountries}
-                outerRadius={80}
-                fill="#8884d8"
-                label
-              />
-              <Tooltip />
-            </PieChart>
-          </Card>
-        </Grid>
-
-        <Grid item xs={4}>
-          <Card>
-            <CardHeader title="年齢・男女比" />
-            <AgeAndGenderChart data={dataAgeAndGender} />
-          </Card>
-        </Grid>
-
-        <Grid item xs={8}>
-          <Card>
-            <CardHeader title="曜日・時間ごとの視聴率" />
-            <WeekHourTimeActive data={dataWeekActive} />
-          </Card>
-        </Grid>
-      </Grid>
+      </div>
     </Layout>
   );
 };
@@ -312,8 +362,8 @@ export const getServerSideProps: GetStaticProps = async () => {
             hour: Number(itemHour),
             value:
               data.items[0].weekActive[currentValue] *
-              data.items[0].hourTimeActive[itemHour] *
-              10000,
+              data.items[0].hourTimeActive[itemHour],
+            index: 1,
           };
         })
       );

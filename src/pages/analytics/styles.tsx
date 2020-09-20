@@ -29,6 +29,9 @@ export const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: 5,
     // backgroundColor: 'rgba(244, 244, 244, 0.8)',
   },
+  gridCard: {
+    padding: 30,
+  },
   aws: {
     marginTop: 30,
     width: 220,

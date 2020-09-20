@@ -18,11 +18,11 @@ export default function SimpleCard({src, title, body}) {
 
   return (
     <Card className={classes.root}>
-        <div style={{width: 290}}>
+        <div>
           <img src={src} style={{width: '100%'}}/>
         </div>
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h6" component="h2">
             {title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">

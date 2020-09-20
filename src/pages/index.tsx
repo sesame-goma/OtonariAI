@@ -5,11 +5,29 @@ import { useUser } from '../utils/firebase/useUser'
 import Typography from '@material-ui/core/Typography';
 import Link from '../components/Link';
 import SearchTop from '../components/SearchTop';
-import { createStyles, fade, Theme, makeStyles } from '@material-ui/core/styles';
+import { createStyles, createMuiTheme, Theme, ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import SimpleCard from '../components/SimpleCard';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button'
+
+const theme = createMuiTheme();
+theme.typography.h3 = {
+  fontSize: '3vw',
+  fontWeight: 400,
+};
+theme.typography.h4 = {
+  fontSize: '2.5vw',
+  fontWeight: 400,
+};
+theme.typography.h5 = {
+  fontSize: '2vw',
+  fontWeight: 400,
+};
+theme.typography.body1 = {
+  fontSize: '1.2vw',
+  fontWeight: 400,
+};
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
     },
     logoWrap: {
-      width: 500,
+      width: '25vw',
       margin: '0 auto',
     },
     logo: {
@@ -44,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
     },
     searchBox: {
-      marginTop: 50,
+      marginTop: '3vw',
       marginBottom: 50,
       width: '50%',
       margin: 'auto',
@@ -71,7 +89,10 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: 20,
       marginTop: 0,
       paddingBottom: 50,
-    }
+    },
+    searchWord: {
+      marginTop: 10,
+    },
   })
 )
 
@@ -99,104 +120,111 @@ const IndexPage = () => {
 
   return (
     <Layout title="Home | Jucy">
-      <div className={classes.mainContainer}>
-        <img src="/top.jpg" className={classes.fullWidthImg} />
-        <div className={classes.overText}>
-          <div className={classes.logoWrap}>
-            <img src="/logo_lg_wh.png" className={classes.logo} />
-          </div>
-          <Typography variant="h3" component="h1" gutterBottom style={{color: "white"}}>
-            かんたん、便利に食レポ依頼
-          </Typography>
-          <Typography variant="h5" component="h2" gutterBottom style={{color: "white"}}>
-            インフルエンサーに、あなたのお店の魅力を発信してもらいましょう
-          </Typography>
-          <div className={classes.searchBox}>
-            <SearchTop />
-          </div>
-        </div>
-      </div>
-      <div className={classes.restaurantContainer}>
-        <div style={{width: 900, margin: 'auto'}}>
-          <div style={{marginTop: 20, marginBottom: 30}}>
-            <div style={{textAlign: 'center'}}>
-              <img src="/chef.png" style={{height: 100, marginBottom: 0,}} />
-              <Typography variant="h4" component="h2" gutterBottom style={{textAlign: 'center', marginBottom: 20}}>
-                飲食店のみなさん
-              </Typography>
-              <Typography variant="h5" component="h2" gutterBottom>
-                飲食店のユーザーは、インフルエンサーを探すことができます。
-              </Typography>
+      <ThemeProvider theme={theme}>
+
+        <div className={classes.mainContainer}>
+          <img src="/top.jpg" className={classes.fullWidthImg} />
+          <div className={classes.overText}>
+            <div className={classes.logoWrap}>
+              <img src="/logo_lg_wh.png" className={classes.logo} />
+            </div>
+            <Typography variant="h3" gutterBottom style={{color: "white"}}>
+              かんたん、便利に食レポ依頼
+            </Typography>
+            <Typography variant="h5" gutterBottom style={{color: "white"}}>
+              Youtuberに、あなたのお店の魅力を発信してもらいましょう
+            </Typography>
+            <div className={classes.searchBox}>
+              <SearchTop />
+              <div className={classes.searchWord}>
+                <Typography variant="body1" style={{color: "#ddd"}}>
+                  こんなキーワードで検索：「東京」「唐揚げ」「インスタ映え」
+                </Typography>
+              </div>
             </div>
           </div>
-          <div>
-            <Grid container spacing={3}>
-              <Grid item xs={4}>
-                <SimpleCard
-                  src="/search.png"
-                  title="1. 検索する"
-                  body={`インフルエンサーを探しましょう。\n料理のジャンルなどを入れるのがポイントです。`}
-                />
+        </div>
+        <div className={classes.restaurantContainer}>
+          <div style={{width: '45vw', margin: 'auto'}}>
+            <div style={{marginTop: 20, marginBottom: 30}}>
+              <div style={{textAlign: 'center'}}>
+                <img src="/chef.png" style={{height: 100, marginBottom: 0,}} />
+                <Typography variant="h4" component="h2" gutterBottom style={{textAlign: 'center', marginBottom: 20}}>
+                  飲食店のみなさん
+                </Typography>
+                <Typography variant="h5" component="h2" gutterBottom>
+                  飲食店のユーザーは、Youtuberを探すことができます。
+                </Typography>
+              </div>
+            </div>
+            <div>
+              <Grid container spacing={3}>
+                <Grid item sm={12} md={4}>
+                  <SimpleCard
+                    src="/search.png"
+                    title="1. 検索する"
+                    body={`あなたのお店に最適なYoutuberを探しましょう。\n地域や料理のジャンルなどで検索することがポイントです。`}
+                  />
+                </Grid>
+                <Grid item sm={12} md={4}>
+                  <SimpleCard
+                    src="/graph.png"
+                    title="2. 分析する"
+                    body={`Youtuberがリーチできる顧客層を知りましょう。\n若者向けや女性向けなどターゲットを絞り込めます。`}
+                  />
+                </Grid>
+                <Grid item sm={12} md={4}>
+                  <SimpleCard
+                    src="/handshake.png"
+                    title="3. 依頼する"
+                    body={`Youtuberに食レポを依頼してあなたのお店をPRしましょう。\nJucyに登録しているYoutuberが対象になります。`}
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={4}>
-                <SimpleCard
-                  src="/graph.png"
-                  title="2. 分析する"
-                  body={`インフルエンサーがリーチできる顧客層を知りましょう。\n若者向けや女性向けなどターゲットを絞り込めます。`}
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <SimpleCard
-                  src="/handshake.png"
-                  title="3. 依頼する"
-                  body={`インフルエンサーに食レポを依頼しましょう。\nJucyに登録しているYoutuberが対象になります。`}
-                />
-              </Grid>
-            </Grid>
-          </div>
-          <div style={{marginTop: 30}}>
-            <Link href="/eatery/login">
-              <Button variant="contained" color="secondary" disableElevation>
-                飲食店様ログイン
-              </Button>
-            </Link>
+            </div>
+            <div style={{marginTop: 30}}>
+              <Link href="/eatery/login">
+                <Button variant="contained" color="primary" disableElevation>
+                  飲食店様ログイン
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
-      <div className={classes.youtuberContainer}>
-        <div style={{width: 900, margin: 'auto'}}>
+        <div className={classes.youtuberContainer}>
+        <div style={{width: '45vw', margin: 'auto'}}>
           <div style={{marginTop: 20, marginBottom: 30}}>
             <div style={{textAlign: 'center'}}>
               <img src="/vlogger.png" style={{height: 100, marginBottom: 0,}} />
               <Typography variant="h4" component="h2" gutterBottom style={{marginBottom: 20}}>
-                インフルエンサーのみなさん
+                Youtuberのみなさん
               </Typography>
               <Typography variant="h5" component="h2" gutterBottom>
-                インフルエンサーは、依頼を待つことができます。
+                Youtuberは、依頼を待つことができます。
               </Typography>
             </div>
           </div>
           <div>
             <Grid container spacing={3}>
-              <Grid item xs={4}>
+              <Grid item sm={4} xs={12}>
                 <SimpleCard
                   src="/key.png"
                   title="1. ログインする"
                   body={`Jucyにログインしましょう。\nGoogleアカウントと、YoutubeチャンネルIDでログインできます。`}
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item sm={4} xs={12}>
                 <SimpleCard
                   src="/talk.png"
                   title="2. 依頼を受ける"
                   body={`飲食店から食レポ依頼を受けられます。\n依頼は一覧で表示することができます。`}
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item sm={4} xs={12}>
                 <SimpleCard
                   src="/youtube.png"
                   title="3. 食レポする"
-                  body={`店舗へ赴き、食レポ動画を撮影します。\n動画をアップロードして完了です。`}
+                  body={`店舗へ赴き、食レポ動画を撮影します。\nYoutubeに動画をアップロードして完了です。`}
                 />
               </Grid>
             </Grid>
@@ -204,12 +232,14 @@ const IndexPage = () => {
           <div style={{marginTop: 30}}>
             <Link href="/youtuber/login">
               <Button variant="contained" color="primary" disableElevation>
-                インフルエンサー様ログイン
+                Youtuberログイン
               </Button>
             </Link>
           </div>
         </div>
       </div>
+
+      </ThemeProvider>
     </Layout>
   )
 }
