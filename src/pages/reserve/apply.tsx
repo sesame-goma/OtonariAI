@@ -106,7 +106,7 @@ const ApplyPage = () => {
     if (title.value === "" || content.value === "" || address.value === "")
       return;
 
-    const data = {
+    const submitData = {
       title: title.value,
       content: content.value,
       address: address.value,
@@ -117,7 +117,7 @@ const ApplyPage = () => {
       processed: false,
       reservedAt: firebase.firestore.FieldValue.serverTimestamp(),
     };
-    db.collection("reservation").add(data);
+    db.collection("reservation").add(submitData);
     setOpen(true);
   };
 
@@ -166,7 +166,7 @@ const ApplyPage = () => {
           食レポを依頼する
         </Typography>
 
-        {data && data.items.length > 0 && (
+        {data && data.items.length !== -1 && (
           <Paper>
             <List>
               <ListItem>
