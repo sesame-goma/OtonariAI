@@ -10,12 +10,10 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import { useChannel } from "../../utils/hooks/useChannel";
 import { useUser } from "../../utils/firebase/useUser";
 import { makeStyles } from "@material-ui/core/styles";
 import useFormInput from "../../utils/hooks/useFormInput";
 import CheckOutlinedIcon from "@material-ui/icons/CheckOutlined";
-import { Message } from "../../types/index";
 
 import useSWR from "swr";
 import {
@@ -27,7 +25,6 @@ import {
 } from "@material-ui/core";
 import Router, { useRouter } from "next/router";
 import DateRangeOutlinedIcon from "@material-ui/icons/DateRangeOutlined";
-import { QueryBuilder } from "@material-ui/icons";
 
 function getModalStyle() {
   const top = 50;
@@ -116,6 +113,7 @@ const ApplyPage = () => {
       eateryId: user.id,
       eateryName: user.data.name,
       youtuberId: router.query.id,
+      youtuberName: data.items[0].snippet.title,
       processed: false,
       reservedAt: firebase.firestore.FieldValue.serverTimestamp(),
     };
@@ -143,9 +141,22 @@ const ApplyPage = () => {
     </div>
   );
 
+  if (!router.query.id) {
+    return (
+      <div>
+        <Typography component="h1" variant="h5" className={classes.title}>
+          対象が見つかりませんでした。もう一度検索してください。
+          <br />
+          <Link href="/youtuber">
+            <a>Youtuber 検索</a>
+          </Link>
+        </Typography>
+      </div>
+    );
+  }
+
   return (
     <Layout title="Resevation Apply | Next.js + TypeScript Example">
-      {console.log("data", data)}
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <DateRangeOutlinedIcon />
@@ -155,7 +166,7 @@ const ApplyPage = () => {
           食レポを依頼する
         </Typography>
 
-        {data && data.items.length !== -1 && (
+        {data && data.items.length > 0 && (
           <Paper>
             <List>
               <ListItem>
