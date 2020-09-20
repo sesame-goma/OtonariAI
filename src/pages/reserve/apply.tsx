@@ -111,7 +111,7 @@ const ApplyPage = () => {
       content: content.value,
       address: address.value,
       eateryId: user.id,
-      eateryName: user.data.name,
+      eateryName: user.name,
       youtuberId: router.query.id,
       youtuberName: data.items[0].snippet.title,
       processed: false,
