@@ -35,7 +35,7 @@ export default function GlobalMenu() {
                 </Link>
                 <Link href="/youtuber/login" color="secondary">
                   <Button variant="contained" color="primary" disableElevation>
-                    インフルエンサー様ログイン
+                    Youtuberログイン
                   </Button>
                 </Link>
               </div>
