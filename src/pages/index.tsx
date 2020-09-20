@@ -24,6 +24,10 @@ theme.typography.h5 = {
   fontSize: '2vw',
   fontWeight: 400,
 };
+theme.typography.body1 = {
+  fontSize: '1.2vw',
+  fontWeight: 400,
+};
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -85,7 +89,10 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: 20,
       marginTop: 0,
       paddingBottom: 50,
-    }
+    },
+    searchWord: {
+      marginTop: 10,
+    },
   })
 )
 
@@ -129,6 +136,11 @@ const IndexPage = () => {
             </Typography>
             <div className={classes.searchBox}>
               <SearchTop />
+              <div className={classes.searchWord}>
+                <Typography variant="body1" style={{color: "#ddd"}}>
+                  こんなキーワードで検索：「東京」「唐揚げ」「インスタ映え」
+                </Typography>
+              </div>
             </div>
           </div>
         </div>
@@ -151,7 +163,7 @@ const IndexPage = () => {
                   <SimpleCard
                     src="/search.png"
                     title="1. 検索する"
-                    body={`Youtuberを探しましょう。\n料理のジャンルなどを入れるのがポイントです。`}
+                    body={`あなたのお店に最適なYoutuberを探しましょう。\n地域や料理のジャンルなどで検索することがポイントです。`}
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>
@@ -165,7 +177,7 @@ const IndexPage = () => {
                   <SimpleCard
                     src="/handshake.png"
                     title="3. 依頼する"
-                    body={`Youtuberに食レポを依頼しましょう。\nJucyに登録しているYoutuberが対象になります。`}
+                    body={`Youtuberに食レポを依頼してあなたのお店をPRしましょう。\nJucyに登録しているYoutuberが対象になります。`}
                   />
                 </Grid>
               </Grid>
@@ -212,7 +224,7 @@ const IndexPage = () => {
                 <SimpleCard
                   src="/youtube.png"
                   title="3. 食レポする"
-                  body={`店舗へ赴き、食レポ動画を撮影します。\n動画をアップロードして完了です。`}
+                  body={`店舗へ赴き、食レポ動画を撮影します。\nYoutubeに動画をアップロードして完了です。`}
                 />
               </Grid>
             </Grid>
