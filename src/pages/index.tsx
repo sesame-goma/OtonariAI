@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
     },
     logoWrap: {
-      width: '35vw',
+      width: '25vw',
       margin: '0 auto',
     },
     logo: {
@@ -125,7 +125,7 @@ const IndexPage = () => {
               かんたん、便利に食レポ依頼
             </Typography>
             <Typography variant="h5" gutterBottom style={{color: "white"}}>
-              インフルエンサーに、あなたのお店の魅力を発信してもらいましょう
+              Youtuberに、あなたのお店の魅力を発信してもらいましょう
             </Typography>
             <div className={classes.searchBox}>
               <SearchTop />
@@ -133,7 +133,7 @@ const IndexPage = () => {
           </div>
         </div>
         <div className={classes.restaurantContainer}>
-          <div style={{width: 900, margin: 'auto'}}>
+          <div style={{width: '45vw', margin: 'auto'}}>
             <div style={{marginTop: 20, marginBottom: 30}}>
               <div style={{textAlign: 'center'}}>
                 <img src="/chef.png" style={{height: 100, marginBottom: 0,}} />
@@ -141,31 +141,31 @@ const IndexPage = () => {
                   飲食店のみなさん
                 </Typography>
                 <Typography variant="h5" component="h2" gutterBottom>
-                  飲食店のユーザーは、インフルエンサーを探すことができます。
+                  飲食店のユーザーは、Youtuberを探すことができます。
                 </Typography>
               </div>
             </div>
             <div>
               <Grid container spacing={3}>
-                <Grid item xs={4}>
+                <Grid item sm={12} md={4}>
                   <SimpleCard
                     src="/search.png"
                     title="1. 検索する"
-                    body={`インフルエンサーを探しましょう。\n料理のジャンルなどを入れるのがポイントです。`}
+                    body={`Youtuberを探しましょう。\n料理のジャンルなどを入れるのがポイントです。`}
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item sm={12} md={4}>
                   <SimpleCard
                     src="/graph.png"
                     title="2. 分析する"
-                    body={`インフルエンサーがリーチできる顧客層を知りましょう。\n若者向けや女性向けなどターゲットを絞り込めます。`}
+                    body={`Youtuberがリーチできる顧客層を知りましょう。\n若者向けや女性向けなどターゲットを絞り込めます。`}
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item sm={12} md={4}>
                   <SimpleCard
                     src="/handshake.png"
                     title="3. 依頼する"
-                    body={`インフルエンサーに食レポを依頼しましょう。\nJucyに登録しているYoutuberが対象になります。`}
+                    body={`Youtuberに食レポを依頼しましょう。\nJucyに登録しているYoutuberが対象になります。`}
                   />
                 </Grid>
               </Grid>
@@ -180,35 +180,35 @@ const IndexPage = () => {
           </div>
         </div>
         <div className={classes.youtuberContainer}>
-        <div style={{width: 900, margin: 'auto'}}>
+        <div style={{width: '45vw', margin: 'auto'}}>
           <div style={{marginTop: 20, marginBottom: 30}}>
             <div style={{textAlign: 'center'}}>
               <img src="/vlogger.png" style={{height: 100, marginBottom: 0,}} />
               <Typography variant="h4" component="h2" gutterBottom style={{marginBottom: 20}}>
-                インフルエンサーのみなさん
+                Youtuberのみなさん
               </Typography>
               <Typography variant="h5" component="h2" gutterBottom>
-                インフルエンサーは、依頼を待つことができます。
+                Youtuberは、依頼を待つことができます。
               </Typography>
             </div>
           </div>
           <div>
             <Grid container spacing={3}>
-              <Grid item xs={4}>
+              <Grid item sm={4} xs={12}>
                 <SimpleCard
                   src="/key.png"
                   title="1. ログインする"
                   body={`Jucyにログインしましょう。\nGoogleアカウントと、YoutubeチャンネルIDでログインできます。`}
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item sm={4} xs={12}>
                 <SimpleCard
                   src="/talk.png"
                   title="2. 依頼を受ける"
                   body={`飲食店から食レポ依頼を受けられます。\n依頼は一覧で表示することができます。`}
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item sm={4} xs={12}>
                 <SimpleCard
                   src="/youtube.png"
                   title="3. 食レポする"
@@ -220,7 +220,7 @@ const IndexPage = () => {
           <div style={{marginTop: 30}}>
             <Link href="/youtuber/login">
               <Button variant="contained" color="primary" disableElevation>
-                インフルエンサーログイン
+                Youtuberログイン
               </Button>
             </Link>
           </div>
