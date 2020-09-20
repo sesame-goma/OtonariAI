@@ -38,6 +38,8 @@ import {
   Typography,
   ListItem,
   Divider,
+  Paper,
+  List as muList,
   ListItemText,
   ListItemAvatar,
   Avatar,
@@ -54,6 +56,7 @@ import { Country, Gender, Age, DoW } from "../../types/analytics";
 import { sampleAnalyticData, sampleUserData } from "../../utils/sample-data";
 import Layout from "../../components/Layout";
 import List from "../../components/List";
+import YoutuberInfoPaper from '../../components/YoutuberInfoPaper';
 import { useStyles } from "../analytics/styles";
 
 type Props = {
@@ -189,60 +192,78 @@ const Analytics = ({
 }: Props) => {
   const { channels } = useContext(GlobalContext);
   const classes = useStyles();
+  console.log(channels);
   const router = useRouter();
   useEffect(() => {
     !channels && router.push('/');
   }, [channels]);
   return (
     <Layout title="Analytics | Jucy">
-      <Grid classes={classes.root} container spacing={10}>
+      <div style={{margin: 20}}>
+      <Grid classes={classes.root} container spacing={3}>
         <Grid item xs={12}>
-          <Grid container xs={12}>
-            <Avatar alt="Remy Sharp" src={channels?.thumbnail || ''} />
-            <Typography variant="h2">
-              {channels?.title}
-            </Typography>
-          </Grid>
+          <Typography variant="h6" style={{marginTop: 20, borderBottom: '1px solid black', fontWeight: 'bold'}}>
+            基本情報
+          </Typography>
         </Grid>
-        <Grid item xs={4}>
-          <Card valiant="outlined">
-            <CardHeader title="チャンネル登録者数" />
-            <Typography variant="h3">
-              {channels?.subscriberCount || 100000}
-            </Typography>
-          </Card>
+        <Grid item xs={12}>
+          <YoutuberInfoPaper channels={channels} />
         </Grid>
-
-        <Grid item xs={4}>
-          <Card valiant="outlined">
-            <CardHeader title="総視聴者数" />
-            <Typography variant="h3">
-              {channels?.viewCount || 100000000}
+        <Grid item xs={3}>
+          <Card valiant="outlined" style={{padding: 20}}>
+            <Typography variant="h6" color="textSecondary">
+              チャンネル登録者数
             </Typography>
-          </Card>
-        </Grid>
-
-        <Grid item xs={4}>
-          <Card valiant="outlined">
-            <CardHeader title="動画投稿数" />
             <Typography variant="h3">
-              {channels?.videoCount || 10000}
-            </Typography>
-          </Card>
-        </Grid>
-
-        <Grid item xs={4}>
-          <Card valiant="outlined">
-            <CardHeader title="総コメント数" />
-            <Typography variant="h3">
-              {channels?.commentCount || 10000}
+              {parseInt(channels?.subscriberCount).toLocaleString() || 100000}
             </Typography>
           </Card>
         </Grid>
 
         <Grid item xs={3}>
-          <Card valiant="outlined">
-            <CardHeader title="地域" />
+          <Card valiant="outlined" style={{padding: 20}}>
+            <Typography variant="h6" color="textSecondary">
+              総視聴者数
+            </Typography>
+            <Typography variant="h3">
+              {parseInt(channels?.viewCount).toLocaleString() || 100000000}
+            </Typography>
+          </Card>
+        </Grid>
+
+        <Grid item xs={3}>
+          <Card valiant="outlined" style={{padding: 20}}>
+            <Typography variant="h6" color="textSecondary">
+              動画投稿数
+            </Typography>
+            <Typography variant="h3">
+              {parseInt(channels?.videoCount).toLocaleString() || 10000}
+            </Typography>
+          </Card>
+        </Grid>
+
+        <Grid item xs={3}>
+          <Card valiant="outlined" style={{padding: 20}}>
+            <Typography variant="h6" color="textSecondary">
+              総コメント数
+            </Typography>
+            <Typography variant="h3">
+              {parseInt(channels?.commentCount).toLocaleString() || 10000}
+            </Typography>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography variant="h6" style={{marginTop: 20, borderBottom: '1px solid black', fontWeight: 'bold'}}>
+            分析グラフ
+          </Typography>
+        </Grid>
+
+        <Grid item xs={3}>
+          <Card valiant="outlined" style={{padding: 20}}>
+            <Typography variant="h6" color="textSecondary">
+              地域
+            </Typography>
             <PieChart width={300} height={300}>
               <Pie
                 isAnimationActive={false}
@@ -257,19 +278,25 @@ const Analytics = ({
         </Grid>
 
         <Grid item xs={4}>
-          <Card>
-            <CardHeader title="年齢・男女比" />
+          <Card style={{padding: 20}}>
+            <Typography variant="h6" color="textSecondary">
+              年齢・男女比
+            </Typography>
             <AgeAndGenderChart data={dataAgeAndGender} />
           </Card>
         </Grid>
 
-        <Grid item xs={8}>
-          <Card>
-            <CardHeader title="曜日・時間ごとの視聴率" />
+        <Grid item xs={5}>
+          <Card style={{padding: 20}}>
+            <Typography variant="h6" color="textSecondary">
+              曜日・時間ごとの視聴率
+            </Typography>
             <WeekHourTimeActive data={dataWeekActive} />
           </Card>
         </Grid>
       </Grid>
+
+      </div>
     </Layout>
   );
 };
