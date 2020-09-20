@@ -44,7 +44,9 @@ const YoutuberIndex = () => {
   const maxSubscriberCount = useFormInput();
   const minViewCount = useFormInput();
   const maxViewCount = useFormInput();
-  const baseKeyword = useFormInput(router.query.keyword || '');
+  let word = String(router.query.keyword).replace(/\(.*/g, '');
+  if (!!word) word = '';
+  const baseKeyword = useFormInput(word);
   const [state, setState] = useState({
     japanese: false,
     european: false,
@@ -58,8 +60,8 @@ const YoutuberIndex = () => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
-  let searchKeyword = baseKeyword.value;
-  if (Object.keys(state).some(i => state[i]===true)) searchKeyword += ' (食レポ';
+  let searchKeyword = baseKeyword.value || '';
+  if (Object.keys(state).some(i => state[i]===true)) searchKeyword += ' (';
   if (state.japanese) searchKeyword += '%7C和食';
   if (state.european) searchKeyword += '%7C洋食';
   if (state.chinese) searchKeyword += '%7C中華';
@@ -67,7 +69,7 @@ const YoutuberIndex = () => {
   if (state.cafe) searchKeyword += '%7Cカフェ';
   if (state.sweet) searchKeyword += '%7Cスイート';
   if (state.chili) searchKeyword += '%7C激辛';
-  if (Object.keys(state).some(i => state[i]===true)) searchKeyword += ' )';
+  if (Object.keys(state).some(i => state[i]===true)) searchKeyword += ')';
 
   let query = { keyword: searchKeyword };
   if (minSubscriberCount.value) query.minSubscriberCount = minSubscriberCount.value;
