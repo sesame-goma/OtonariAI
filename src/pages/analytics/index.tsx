@@ -196,6 +196,12 @@ const WeekHourTimeActive = ({ data }: dataWeekActive) => {
   );
 };
 
+const fetcher = (url: string) =>
+  fetch(url, {
+    method: "GET",
+    headers: new Headers({ "Content-Type": "application/json" }),
+  }).then((res) => res.json());
+
 const Analytics = ({
   items,
   dataCountries,
@@ -312,7 +318,6 @@ const Analytics = ({
               </PieChart>
             </Card>
           </Grid>
-
           <Grid item xs={4}>
             <Card style={{ padding: 20 }}>
               <Typography variant="h6" color="textSecondary">
@@ -321,7 +326,6 @@ const Analytics = ({
               <AgeAndGenderChart data={dataAgeAndGender} />
             </Card>
           </Grid>
-
           <Grid item xs={5}>
             <Card style={{ padding: 20 }}>
               <Typography variant="h6" color="textSecondary">
