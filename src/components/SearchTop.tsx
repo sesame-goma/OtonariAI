@@ -61,7 +61,7 @@ export default function SearchTop() {
         <SearchIcon />
       </div>
       <InputBase
-        placeholder="検索…"
+        placeholder="例：東京、唐揚げ"
         classes={{
           root: classes.inputRoot,
           input: classes.inputInput,

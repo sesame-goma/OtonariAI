@@ -1,5 +1,4 @@
 import useSWR from 'swr'
-import Container from '@material-ui/core/Container';
 import Layout from '../components/Layout'
 import { useUser } from '../utils/firebase/useUser'
 import Typography from '@material-ui/core/Typography';
@@ -8,8 +7,8 @@ import SearchTop from '../components/SearchTop';
 import { createStyles, createMuiTheme, Theme, ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import SimpleCard from '../components/SimpleCard';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button'
+import Router from 'next/router'
 
 const theme = createMuiTheme();
 theme.typography.h3 = {
@@ -93,6 +92,11 @@ const useStyles = makeStyles((theme: Theme) =>
     searchWord: {
       marginTop: 10,
     },
+    category: {
+      marginRight: 10,
+      borderRadius: 30,
+      height: 20,
+    },
   })
 )
 
@@ -102,6 +106,25 @@ export const getServerSideProps = async(context) => ({
     top: true,
   }
 })
+
+const category = {
+  japanese: '和食',
+  european: '洋食',
+  chinese: '中華',
+  ramen: 'ラーメン',
+  cafe: 'カフェ',
+  sweet: 'スイート',
+  chili: '激辛',
+}
+
+const submit = (key) => {
+  const query = { [key]: true, keyword: `(${category[key]})` };
+
+  Router.push({
+    pathname: '/youtuber',
+    query,
+  })
+}
 
 const fetcher = (url, token) =>
   fetch(url, {
@@ -137,8 +160,14 @@ const IndexPage = () => {
             <div className={classes.searchBox}>
               <SearchTop />
               <div className={classes.searchWord}>
-                <Typography variant="body1" style={{color: "#ddd"}}>
-                  こんなキーワードで検索：「東京」「唐揚げ」「インスタ映え」
+                <Typography variant="body2" style={{color: "#ddd"}}>
+                カテゴリ検索：
+                {Object.keys(category).map((key) => (
+                    <Button variant="contained" color="default" onClick={() => submit(key)} className={classes.category}>
+                      {category[key]}
+                    </Button>
+                  ))
+                }
                 </Typography>
               </div>
             </div>
