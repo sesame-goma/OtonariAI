@@ -254,7 +254,7 @@ const IndexPage = () => {
                   body={`Jucyで飲食店から食レポ依頼を受けられます。\n依頼は一覧形式で表示することができます。`}
                 />
               </Grid>
-              <Grid item sm={4} xs={12}>
+              <Grid item sm={12} md={4}>
                 <SimpleCard
                   src="/youtube.png"
                   title="3. 食レポする"
