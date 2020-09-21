@@ -88,17 +88,18 @@ export default function ChannelListRow(item) {
             <ListItemText
               primary={item.item.snippet.title}
               secondary={
-                <React.Fragment>
+                <div style={{marginTop: 10}}>
                   <Typography
                     component="span"
                     variant="body2"
                     className={classes.inline}
-                    color="textPrimary"
+                    color="textSecondary"
                   >
                     {item.item.snippet.channelTitle}
                   </Typography>
-                </React.Fragment>
+                </div>
               }
+              style={{marginLeft: 30}}
             />
           </ListItem>
         </Link>
