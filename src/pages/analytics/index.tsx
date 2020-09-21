@@ -41,7 +41,7 @@ import { Rating } from "@material-ui/lab";
 
 import { AgeAndGender } from "../../types";
 import { Data, User } from "../../types";
-import { useChannels } from '../../utils/hooks/useChannels.ts'
+import { useChannel } from '../../utils/hooks/useChannels.ts'
 import { GlobalContext } from "../../utils/context/context";
 
 import { Country, Gender, Age, DoW } from "../../types/analytics";
@@ -169,28 +169,29 @@ const Analytics = ({
   dataAgeAndGender,
   dataWeekActive,
 }: Props) => {
-  const { channel, setTargetChannel } = useContext(GlobalContext);
+  const { targetChannel } = useContext(GlobalContext);
+  const [channel, setChannel] = useState(targetChannel);
   const classes = useStyles();
   const router = useRouter();
-  useLayoutEffect(async() => {
-    if (!router.query) {
+  useLayoutEffect(() => {
+    if (!router.query || !channel) {
       router.push("/");
       return;
     }
-
-    if (!channel) {
-      const { channels }: Array<item> = await useChannels(router.query);
-      const targetCh = channels.filter((ch) => router.query.id === ch.id);
-
-    }
   }, [channel]);
 
+  if (!channel) { 
+    // todo 直たたき
+    const res: Array<item> = useChannel(router.query);
+    setChannel(res.ch);
+  }
+
   const handleApply = () => {
-    if(!channel) { return; }
+    if(!router.query) { return; }
     router.push({
       pathname: "/reserve/apply",
       query: {
-        id: channel.id,
+        id: router.query.id,
       },
     });
   };

@@ -50,6 +50,15 @@ const chFilter = (data: [], query: {}) => {
   return filteredData;
 }
 
+const useChannel = (id: number) => {
+  // todo 直たたき
+  const [ch, setCh] = useState();
+  const APIKEY = process.env.YOUTUBE_API_KEY;
+  const URL = `https://www.googleapis.com/youtube/v3/channels?key=${APIKEY}&id=${id}&part=id,snippet,statistics&maxResults=10&regionCode=jp`
+  chFetcher(URL).then((data) => setChannel(data));
+  return { ch };
+}
+
 const useChannels = (query: {}) => {
   const [channels, setChannels] = useState()
   const router = useRouter()
@@ -82,4 +91,4 @@ const useChannels = (query: {}) => {
   return { channels, setTargetChannel };
 }
 
-export { useChannels }
+export { useChannels, useChannel }

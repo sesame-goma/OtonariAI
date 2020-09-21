@@ -181,65 +181,140 @@ const YoutuberIndex = () => {
                 size="small"
                 {...minSubscriberCount}
               />
-              <ValidationTextField
-                variant="outlined"
-                label="max"
-                size="small"
-                {...maxSubscriberCount}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.european}
+                    onChange={handleChangeCheckBox}
+                    name="european"
+                  />
+                }
+                label="洋食"
               />
-
-              {/* スペース用に適当に入れた */}
-              <Box mt={2}></Box>
-
-              <Typography variant="body2" color="textPrimary">
-                総視聴回数
-              </Typography>
-              <ValidationTextField
-                className={classes.rightSpace}
-                variant="outlined"
-                label="min"
-                size="small"
-                {...minViewCount}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.chinese}
+                    onChange={handleChangeCheckBox}
+                    name="chinese"
+                  />
+                }
+                label="中華"
               />
-              <ValidationTextField
-                variant="outlined"
-                label="max"
-                size="small"
-                {...maxViewCount}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.ramen}
+                    onChange={handleChangeCheckBox}
+                    name="ramen"
+                  />
+                }
+                label="ラーメン"
               />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.cafe}
+                    onChange={handleChangeCheckBox}
+                    name="cafe"
+                  />
+                }
+                label="カフェ"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.sweet}
+                    onChange={handleChangeCheckBox}
+                    name="sweet"
+                  />
+                }
+                label="スイーツ"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.chili}
+                    onChange={handleChangeCheckBox}
+                    name="chili"
+                  />
+                }
+                label="激辛"
+              />
+            </FormGroup>
+            {/* スペース用に適当に入れた */}
+            <Box mt={2}></Box>
 
-              {/* スペース用に適当に入れた */}
-              <Box mt={1}></Box>
 
-              <Typography variant="body1" color="textPrimary">
-                フリーワード
-              </Typography>
-              <ValidationTextField variant="outlined" size="small" {...baseKeyword} />
+            <Typography variant="body2" color="textPrimary">
+              チャンネル登録者数
+            </Typography>
+            <ValidationTextField
+              className={classes.rightSpace}
+              variant="outlined"
+              label="min"
+              size="small"
+              {...minSubscriberCount}
+            />
+            <ValidationTextField
+              variant="outlined"
+              label="max"
+              size="small"
+              {...maxSubscriberCount}
+            />
 
-              {/* スペース用に適当に入れた */}
-              <Box mt={2}> </Box>
+            {/* スペース用に適当に入れた */}
+            <Box mt={2}></Box>
 
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={submit}
-                size="large"
-              >
-                検索する
-              </Button>
+            <Typography variant="body2" color="textPrimary">
+              総視聴回数
+            </Typography>
+            <ValidationTextField
+              className={classes.rightSpace}
+              variant="outlined"
+              label="min"
+              size="small"
+              {...minViewCount}
+            />
+            <ValidationTextField
+              variant="outlined"
+              label="max"
+              size="small"
+              {...maxViewCount}
+            />
 
-            </Paper>
-          </div>
+            {/* スペース用に適当に入れた */}
+            <Box mt={1}></Box>
 
-          {/* スペース用に適当に入れた */}
-          <Box mt={5}></Box>
+            <Typography variant="body1" color="textPrimary">
+              フリーワード
+            </Typography>
+            <ValidationTextField variant="outlined" size="small" {...baseKeyword} />
 
-          <Typography variant="h6" component="h1" gutterBottom>
-            チャンネル検索結果
-          </Typography>
-          {channels && <ChannelList items={channels} />}
-        </Layout>
-      </Container>
+            {/* スペース用に適当に入れた */}
+            <Box mt={2}> </Box>
+
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={submit}
+              size="large"
+            >
+              検索する
+            </Button>
+
+          </Paper>
+        </div>
+
+        {/* スペース用に適当に入れた */}
+        <Box mt={5}></Box>
+
+        <Typography variant="h6" component="h1" gutterBottom>
+          チャンネル検索結果
+        </Typography>
+        {channels && <ChannelList items={channels} />}
+      </Layout>
+    </Container>
   );
 }
 
