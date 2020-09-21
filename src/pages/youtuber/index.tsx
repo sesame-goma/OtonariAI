@@ -51,13 +51,13 @@ const YoutuberIndex = () => {
   let word = router.query.keyword ? String(router.query.keyword).replace(/\(.*/g, '') : '';
   const baseKeyword = useFormInput(word);
   const [state, setState] = useState({
-    japanese: router.query.japanese || false,
-    european: router.query.european || false,
-    chinese: router.query.chinese || false,
-    ramen: router.query.ramen || false,
-    cafe: router.query.cafe || false,
-    sweets: router.query.sweets || false,
-    chili: router.query.chili || false,
+    japanese: !!router.query.japanese || false,
+    european: !!router.query.european || false,
+    chinese: !!router.query.chinese || false,
+    ramen: !!router.query.ramen || false,
+    cafe: !!router.query.cafe || false,
+    sweets: !!router.query.sweets || false,
+    chili: !!router.query.chili || false,
   });
   const handleChangeCheckBox = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
