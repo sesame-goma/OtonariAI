@@ -71,6 +71,9 @@ const ListRow = (data) => {
         </ListItem>
       </ListItem>
       <ListItem>
+        <Typography>{`連絡先: ${message.address}`}</Typography>
+      </ListItem>
+      <ListItem>
         <Typography>{`タイトル: ${message.title}`}</Typography>
       </ListItem>
       <ListItem>
@@ -85,26 +88,6 @@ const ListRow = (data) => {
           {message.processed ? "未対応に変更" : "対応済みに変更"}
         </Button>
       </ListItem>
-      {/* <ListItemText
-        primary={message.eateryName}
-        secondary={
-          <React.Fragment>
-            <Typography component="span" variant="body2" color="textPrimary">
-              {`${message.title} - ${message.content}`}{" "}
-            </Typography>
-            <br />
-            <Button
-              variant="contained"
-              color={message.processed ? "primary" : "secondary"}
-              onClick={() => onPress(message.processed, message.id)}
-            >
-              {message.processed ? "未対応に変更" : "対応済みに変更"}
-            </Button>{" "}
-            <br />
-            受信日：{message.reservedAt}
-          </React.Fragment>
-        }
-      /> */}
     </List>
   );
 };
@@ -125,13 +108,8 @@ const ListPage = () => {
           snapShot.forEach((doc) => {
             const date = doc.data().reservedAt.toDate();
             const formatDate = `
-            ${date.getFullYear()}-
-            ${date.getMonth() + 1}-
-            ${date.getDate()}-
-            ${date.getHours()}:
-            ${date.getMinutes()}:
-            ${date.getSeconds()}
-            `.replace(/\n|\r/g, "");
+            ${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+              .replace(/\n|\r/g, "");
 
             setMessages((messages) =>
               messages.concat({
@@ -177,9 +155,6 @@ const ListPage = () => {
               <Divider />
             </div>
           ))}
-          <Link href="/">
-            <a>Go Top</a>
-          </Link>
         </div>
       </Layout>
     </Container>

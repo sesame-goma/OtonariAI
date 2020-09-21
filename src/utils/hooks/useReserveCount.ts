@@ -7,7 +7,8 @@ const useReserveCount = (user) => {
   const [count, setCount] = useState()
 
   useEffect(() => {
-    if (!user || user.type !== 'eatery' || !user.channelId) return;
+    console.log('run reserveCount')
+    if (!user || user.type === 'eatery' || !user.channelId) return;
 
     db.collection('reservation')
       .where('youtuberId', '==', user.channelId)
