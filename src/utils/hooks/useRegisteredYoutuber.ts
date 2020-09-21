@@ -1,20 +1,22 @@
 import { useEffect, useState, } from 'react'
 import { db } from "../firebase/initFirebase";
 
-const useRegisteredYoutuber = (id: number) => {
-  const [youtuber, setYoutuber] = useState()
+const useRegisteredYoutuber = (channelId: number) => {
+  const [isRegistered, setIsRegistered] = useState(false)
 
   useEffect(() => {
-    if (!id) return;
+    if (!channelId) return;
 
     db.collection('users')
       .where('channelId', '==', channelId)
       .get()
       .then(snap => {
-        setYoutuber(snap.docs);
+        if (snap.docs.length) {
+          setIsRegistered(true);
+        }
       })
-  }, [youtuber])
-  return { youtuber };
+  }, [channelId])
+  return { isRegistered };
 }
 
 export { useRegisteredYoutuber }
