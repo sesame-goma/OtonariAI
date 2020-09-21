@@ -275,7 +275,7 @@ const Analytics = ({
               最近の動画
             </Typography>
           </Grid>
-          {Array.isArray(vi) && data.items.map((video) => (
+          {Array.isArray(vi) && vi.map((video) => (
             <Grid item xs={4}>
               <YoutubeVideo video={video} />
             </Grid>

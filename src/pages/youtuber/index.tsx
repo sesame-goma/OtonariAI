@@ -181,67 +181,6 @@ const YoutuberIndex = () => {
                 size="small"
                 {...minSubscriberCount}
               />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={state.european}
-                    onChange={handleChangeCheckBox}
-                    name="european"
-                  />
-                }
-                label="洋食"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={state.chinese}
-                    onChange={handleChangeCheckBox}
-                    name="chinese"
-                  />
-                }
-                label="中華"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={state.ramen}
-                    onChange={handleChangeCheckBox}
-                    name="ramen"
-                  />
-                }
-                label="ラーメン"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={state.cafe}
-                    onChange={handleChangeCheckBox}
-                    name="cafe"
-                  />
-                }
-                label="カフェ"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={state.sweet}
-                    onChange={handleChangeCheckBox}
-                    name="sweet"
-                  />
-                }
-                label="スイーツ"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={state.chili}
-                    onChange={handleChangeCheckBox}
-                    name="chili"
-                  />
-                }
-                label="激辛"
-              />
-            </FormGroup>
             {/* スペース用に適当に入れた */}
             <Box mt={2}></Box>
 

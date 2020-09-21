@@ -58,6 +58,7 @@ const useChannels = (query: {}) => {
   const queryJsonString = JSON.stringify(query);
   useEffect(() => {
     const searchURL = `https://www.googleapis.com/youtube/v3/search?key=${APIKEY}&type=channel&q=食レポ ${query.keyword}+-かまきり&part=id&maxResults=10&regionCode=jp`
+    console.log(searchURL);
 
     const fetch = async (url: string): Promise<Object | null> => {
       try {
