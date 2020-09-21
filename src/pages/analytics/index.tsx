@@ -106,36 +106,6 @@ const OneDayChart = (props) => {
   const { data, max, day } = props;
   const domain = [0, max];
   const range = [1, 255];
-  const renderTooltip = (props) => {
-    const { active, payload } = props;
-
-    if (active && payload && payload.length) {
-      const data = payload[0] && payload[0].payload;
-
-      return (
-        <div
-          style={{
-            backgroundColor: "#fff",
-            border: "1px solid #999",
-            margin: 0,
-            padding: 10,
-          }}
-        >
-          <p>
-            <span>時間帯: </span>
-            {data.hour}
-          </p>
-          <p>
-            <span>視聴率: </span>
-            {data.value}
-          </p>
-        </div>
-      );
-    }
-
-    return null;
-  };
-
   data.forEach((item) => delete item.day);
   return (
     <div>
@@ -210,16 +180,14 @@ const Analytics = ({
 }: Props) => {
   const { channels } = useContext(GlobalContext);
   const classes = useStyles();
-  // console.log(channels);
   const router = useRouter();
   useEffect(() => {
-    !channels && router.push("/");
+    if (!channels) {
+      router.push("/");
+      return;
+    }
   }, [channels]);
 
-  // const { recentVideo, recentVideoError } = useSWR(
-  //   `https://www.googleapis.com/youtube/v3/search?key=${process.env.YOUTUBE_API_KEY}&part=snippet&channelId=${channels.id}&maxResults=3&regionCode=jp`,
-  //   fetcher
-  // );
   const { data, error } = useSWR(
     `https://www.googleapis.com/youtube/v3/search?key=${process.env.YOUTUBE_API_KEY}&part=snippet&channelId=${channels.id}&q=食レポ&maxResults=3&regionCode=jp&type=video`,
     fetcher
@@ -346,7 +314,6 @@ const Analytics = ({
               最近の動画
             </Typography>
           </Grid>
-          {console.log(data)}
           {data &&
             data.items.length !== -1 &&
             data.items.map((video) => (
