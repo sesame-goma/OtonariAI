@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'absolute',
       width: '100%',
       left: '0',
-      top: 'calc(20% - 25px)',
+      top: 'calc(20% - 40px)',
       textAlign: 'center',
     },
     logoWrap: {
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme: Theme) =>
     searchBox: {
       marginTop: '3vw',
       marginBottom: 50,
-      width: '50%',
+      width: '100%',
       margin: 'auto',
     },
     restaurantContainer: {
@@ -96,6 +96,9 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: 10,
       borderRadius: 30,
       height: 20,
+    },
+    categorySearch: {
+      marginRight: 10,
     },
   })
 )
@@ -161,7 +164,9 @@ const IndexPage = () => {
               <SearchTop />
               <div className={classes.searchWord}>
                 <Typography variant="body2" style={{color: "#ddd"}}>
-                カテゴリ検索：
+                <span className={classes.categorySearch}>
+                  カテゴリ検索：
+                </span>
                 {Object.keys(category).map((key) => (
                     <Button variant="contained" color="default" onClick={() => submit(key)} className={classes.category}>
                       {category[key]}

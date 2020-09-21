@@ -10,17 +10,15 @@ const useStyles = makeStyles((theme: Theme) =>
     search: {
       position: 'relative',
       borderRadius: theme.shape.borderRadius,
-      // backgroundColor: fade(theme.palette.common.white, 0.15),
       backgroundColor: fade(theme.palette.common.white, 0.35),
       '&:hover': {
         backgroundColor: fade(theme.palette.common.white, 0.45),
       },
-      marginLeft: 0,
-      width: '100%',
+      marginHorizontal: 'auto',
       [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(1),
-        width: 'auto',
+        width: '50%',
       },
+      margin: '0 auto',
     },
     searchIcon: {
       padding: theme.spacing(0, 2),
