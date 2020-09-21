@@ -60,7 +60,6 @@ export default function ChannelListRow({ item }: Props) {
         <div className={classes.listRow}>
           <Link onClick={handleClick} href={`/analytics?id=${item.id}`} underline="none" color="inherit">
             <ListItem alignItems="flex-start">
-              {/* <ListItem alignItems="flex-start" button onClick={handleClick}> */}
               <ListItemAvatar>
                 <Avatar alt="Remy Sharp" src={item.thumbnail} />
               </ListItemAvatar>

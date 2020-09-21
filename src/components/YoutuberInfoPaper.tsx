@@ -3,17 +3,18 @@ import {
   Typography,
   ListItem,
   Paper,
-  List,
   ListItemText,
   ListItemAvatar,
-  ListItemSecondaryAction,
   Avatar,
 } from '@material-ui/core';
-import { Theme, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles((theme: Theme) => ({
+export const useStyles = makeStyles(() => ({
+  inline: {
+    display: "inline",
+  },
   button: {
-    marginLeft: 16,
+    marginTop: 5,
   },
 }));
 
@@ -22,10 +23,10 @@ const YoutuberInfoPaper = ({ channel, handleApply, isVisibleButton }) => {
   return (
     <Paper>
       {channel && (
-        <List>
-          <ListItem>
+        <>
+          <ListItem alignItems="flex-start">
             <ListItemAvatar>
-              <Avatar variant="square" alt="channel" src={channel.thumbnail} />
+              <Avatar alt="Remy Sharp" src={channel.thumbnail} />
             </ListItemAvatar>
             <ListItemText
               primary={channel.title}
@@ -37,21 +38,23 @@ const YoutuberInfoPaper = ({ channel, handleApply, isVisibleButton }) => {
                   color="textPrimary"
                 >
                   {channel.description}
+                <ListItem disableGutters className={classes.button}>
+                  {isVisibleButton && (
+                    <Button variant="contained" color="secondary" onClick={handleApply}>
+                      食レポを申し込む
+                    </Button>
+                  )}
+                </ListItem>
                 </Typography>
               }
             />
           </ListItem>
-          <ListItemSecondaryAction classes={classes.button}>
-            {isVisibleButton && (
-              <Button variant="contained" color="secondary" onClick={handleApply}>
-                食レポを申し込む
-              </Button>
-            )}
-          </ListItemSecondaryAction>
-        </List>
+        </>
       )}
+
     </Paper>
   );
 }
+
 
 export default YoutuberInfoPaper;

@@ -53,7 +53,7 @@ const ValidationTextField = withStyles({
 const YoutuberIndex = () => {
   const classes = useStyles();
   const router = useRouter();
-  const { channels }: Array<item> = useChannels(router.query);
+  const { channels, setChannelsResult }: Array<item> = useChannels(router.query);
 
   const [tabValue, setTabValue] = useState(0);
 
