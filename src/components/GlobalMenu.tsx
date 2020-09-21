@@ -72,7 +72,7 @@ export default function GlobalMenu() {
                     <MenuItem
                       onClick={() => user.type === 'eatery'
                         ? router.push("/eatery/reserve")
-                        : router.push("/youtuber/eatery")
+                        : router.push("/youtuber/reserve")
                       }
                     >
                       <Badge color="primary" variant="dot" invisible={!count}>

@@ -7,10 +7,10 @@ const useReserveCount = (user) => {
   const [count, setCount] = useState()
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || user.type == 'eatery') return;
 
     db.collection('reservation')
-      .where('youtuberId', '==', user.id)
+      .where('youtuberId', '==', user.channelId)
       .where('processed', '==', false)
       .get()
       .then(snap => {
