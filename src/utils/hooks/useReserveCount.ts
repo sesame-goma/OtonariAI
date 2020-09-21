@@ -15,7 +15,7 @@ const useReserveCount = (user) => {
       .then((snap) => {
         setCount(snap.docs.length);
       });
-  }, [user]);
+  }, user);
   return { count };
 };
 
