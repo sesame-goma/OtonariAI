@@ -7,7 +7,9 @@ const useVideo = (query: {}) => {
   const APIKEY = process.env.YOUTUBE_API_KEY;
   const queryJsonString = JSON.stringify(query);
   useEffect(() => {
-    const searchURL = `https://www.googleapis.com/youtube/v3/search?key=${APIKEY}&type=video&q=店&part=id,snippet&maxResults=10&regionCode=jp`;
+    const category = query?.category ? query.category : "食レポ";
+    const keyword = query.keyword ? query.keyword : "";
+    const searchURL = `https://www.googleapis.com/youtube/v3/search?key=${APIKEY}&type=video&q=店 ${category} ${keyword}&part=id,snippet&maxResults=10&regionCode=jp`;
 
     const videofetch = async (url: string) => {
       const res = await fetch(url);
@@ -16,7 +18,6 @@ const useVideo = (query: {}) => {
     };
     videofetch(searchURL).then((data) => {
       setVideos(data.items);
-      console.log(videos);
     });
   }, [queryJsonString]);
 

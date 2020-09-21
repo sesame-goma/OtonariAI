@@ -16,11 +16,10 @@ import useFormInput from "../../utils/hooks/useFormInput";
 import VideoList from "../../components/VideoList";
 import { item } from "../../types/youtuber/index";
 import { useState, useContext } from "react";
-import { GlobalProvider, GlobalContext } from "../../utils/context/context";
 import { useVideo } from "../../utils/hooks/useVideo";
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import TabPanel from '../../components/TabPanel';
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import TabPanel from "../../components/TabPanel";
 
 const useStyles = makeStyles((theme) => ({
   rightSpace: {
@@ -37,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
@@ -75,7 +74,12 @@ const YoutuberIndex = () => {
   const handleChangeCheckBox = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
-  const [tabValue, setTabValue] = useState(0);
+  const [tabValue, setTabValue] = useState(1);
+
+  const [category, setCategory] = useState("食レポ");
+  const handleChangeRadioButton = (event) => {
+    setCategory(event.target.value);
+  };
 
   let searchKeyword = baseKeyword.value || "";
   if (Object.keys(state).some((i) => state[i] === true)) searchKeyword += " (";
@@ -96,6 +100,7 @@ const YoutuberIndex = () => {
   if (minViewCount.value) query.minViewCount = minViewCount.value;
   if (maxViewCount.value) query.maxViewCount = maxViewCount.value;
 
+  query.category = category;
   const submit = () => {
     Router.push({
       pathname: "/youtuber",
@@ -116,11 +121,14 @@ const YoutuberIndex = () => {
 
   return (
     <Container maxWidth="md">
-      {console.log("ビデオ", videos)}
       <Layout title="Home | Jucy">
         <div className={classes.mainContainer}>
           <Paper className={classes.searchContainer}>
-            <Tabs value={tabValue} onChange={handleTabChange} aria-label="simple tabs example">
+            <Tabs
+              value={tabValue}
+              onChange={handleTabChange}
+              aria-label="simple tabs example"
+            >
               <Tab label="チャンネル検索" {...a11yProps(0)} />
               <Tab label="動画検索" {...a11yProps(1)} />
             </Tabs>
@@ -268,25 +276,26 @@ const YoutuberIndex = () => {
               <Typography variant="body2" color="textPrimary">
                 ジャンル
               </Typography>
+
               <RadioGroup
-                aria-label="gender"
-                name="gender1"
+                aria-label="category"
+                name="category"
                 // value={value}
-                // onChange={handleChange}
+                onChange={handleChangeRadioButton}
                 row
               >
                 <FormControlLabel
-                  value="female"
+                  value="食レポ"
                   control={<Radio />}
                   label="食レポ"
                 />
                 <FormControlLabel
-                  value="male"
+                  value="大食い"
                   control={<Radio />}
                   label="大食い"
                 />
                 <FormControlLabel
-                  value="other"
+                  value="食べ歩き"
                   control={<Radio />}
                   label="食べ歩き"
                 />
