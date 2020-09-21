@@ -8,9 +8,12 @@ import Copyright from '../components/Copyright';
 import Box from '@material-ui/core/Box';
 import GlobalMenu from '../components/GlobalMenu';
 import { GlobalProvider } from '../../src/utils/context/context';
+import FlashMessage from '../components/FlashMessage';
+import { useRouter } from 'next/router';
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
+  const router = useRouter();
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -32,6 +35,12 @@ export default function MyApp(props: AppProps) {
         <header>
           <GlobalMenu />
         </header>
+        {router.query.type && router.query.message && (
+          <FlashMessage
+            type={router.query.type}
+            message={router.query.message}
+          />
+        )}
         {pageProps.top
         ? (
           <Box>

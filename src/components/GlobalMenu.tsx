@@ -17,7 +17,8 @@ export default function GlobalMenu() {
   const { user, logout } = useUser();
   // const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const [open, setOpen] = useState(false);
+  // const open = Boolean(anchorEl);
   const router = useRouter();
   // console.log('u', user)
   const { count } = useReserveCount(user);
@@ -25,10 +26,12 @@ export default function GlobalMenu() {
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
+    setOpen(true)
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+    setOpen(false);
   };
 
   return (
@@ -70,16 +73,25 @@ export default function GlobalMenu() {
                   onClose={handleClose}
                 >
                     <MenuItem
-                      onClick={() => user.type === 'eatery'
-                        ? router.push("/eatery/reserve")
-                        : router.push("/youtuber/reserve")
-                      }
+                      onClick={() => {
+                        user.type === 'eatery'
+                          ? router.push("/eatery/reserve")
+                          : router.push("/youtuber/reserve");
+                        handleClose();
+                      }}
                     >
                       <Badge color="primary" variant="dot" invisible={!count}>
                         予約一覧
                       </Badge>
                     </MenuItem>
-                  <MenuItem onClick={() => logout()}>ログアウト</MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      logout()
+                      handleClose()
+                    }}
+                  >
+                    ログアウト
+                  </MenuItem>
                 </Menu>
               </div>
             )

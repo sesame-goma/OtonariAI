@@ -20,7 +20,7 @@ const useUser = () => {
       .signOut()
       .then(() => {
         // Sign-out successful.
-        router.push('/')
+        router.push('/?type=success&message=ログアウトしました')
       })
       .catch((e) => {
         console.error(e)

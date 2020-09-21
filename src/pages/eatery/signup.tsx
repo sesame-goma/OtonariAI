@@ -49,7 +49,7 @@ export default function SignUpPage() {
         type: "eatery",
       })
       .then(e => {
-        Router.push('/');
+        Router.push('/?type=success&message=ログインしました');
       })
       .catch(e => {
         console.log(e);
