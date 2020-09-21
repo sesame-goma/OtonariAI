@@ -57,7 +57,9 @@ import { sampleAnalyticData, sampleUserData } from "../../utils/sample-data";
 import Layout from "../../components/Layout";
 import List from "../../components/List";
 import YoutuberInfoPaper from "../../components/YoutuberInfoPaper";
+import YoutubeVideo from "../../components/YoutubeVideo";
 import { useStyles } from "../analytics/styles";
+import useSWR from "swr";
 
 type Props = {
   dataCountries: any;
@@ -202,11 +204,21 @@ const Analytics = ({
 }: Props) => {
   const { channels } = useContext(GlobalContext);
   const classes = useStyles();
-  console.log(channels);
+  // console.log(channels);
   const router = useRouter();
   useEffect(() => {
     !channels && router.push("/");
   }, [channels]);
+
+  // const { recentVideo, recentVideoError } = useSWR(
+  //   `https://www.googleapis.com/youtube/v3/search?key=${process.env.YOUTUBE_API_KEY}&part=snippet&channelId=${channels.id}&maxResults=3&regionCode=jp`,
+  //   fetcher
+  // );
+  const { data, error } = useSWR(
+    `https://www.googleapis.com/youtube/v3/search?key=${process.env.YOUTUBE_API_KEY}&part=snippet&channelId=${channels.id}&q=食レポ&maxResults=3&regionCode=jp&type=video`,
+    fetcher
+  );
+
   return (
     <Layout title="Analytics | Jucy">
       <div style={{ margin: 20 }}>
@@ -318,6 +330,26 @@ const Analytics = ({
               <WeekHourTimeActive data={dataWeekActive} />
             </Card>
           </Grid>
+          <Grid item xs={12}>
+            <Typography
+              variant="h6"
+              style={{
+                marginTop: 20,
+                borderBottom: "1px solid black",
+                fontWeight: "bold",
+              }}
+            >
+              最近の動画
+            </Typography>
+          </Grid>
+          {console.log(data)}
+          {data &&
+            data.items.length !== -1 &&
+            data.items.map((video) => (
+              <Grid item xs={4}>
+                <YoutubeVideo video={video} />
+              </Grid>
+            ))}
         </Grid>
       </div>
     </Layout>
