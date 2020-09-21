@@ -133,7 +133,7 @@ const YoutuberIndex = () => {
               <Tab label="動画検索" {...a11yProps(1)} />
             </Tabs>
             <TabPanel value={tabValue} index={0}>
-              <Typography variant="body2" color="textPrimary">
+              <Typography variant="body1" color="textPrimary">
                 おすすめカテゴリ
               </Typography>
               <FormGroup row>
@@ -211,7 +211,7 @@ const YoutuberIndex = () => {
               {/* スペース用に適当に入れた */}
               <Box mt={2}></Box>
 
-              <Typography variant="body2" color="textPrimary">
+              <Typography variant="body1" color="textPrimary">
                 チャンネル登録者数
               </Typography>
               <ValidationTextField
@@ -231,7 +231,7 @@ const YoutuberIndex = () => {
               {/* スペース用に適当に入れた */}
               <Box mt={2}></Box>
 
-              <Typography variant="body2" color="textPrimary">
+              <Typography variant="body1" color="textPrimary">
                 総視聴回数
               </Typography>
               <ValidationTextField
@@ -273,7 +273,7 @@ const YoutuberIndex = () => {
               </Button>
             </TabPanel>
             <TabPanel value={tabValue} index={1}>
-              <Typography variant="body2" color="textPrimary">
+              <Typography variant="body1" color="textPrimary">
                 ジャンル
               </Typography>
 
@@ -303,7 +303,7 @@ const YoutuberIndex = () => {
 
               {/* スペース用に適当に入れた */}
               <Box mt={2}> </Box>
-              <Typography variant="body2" color="textPrimary">
+              <Typography variant="body1" color="textPrimary">
                 おすすめカテゴリ
               </Typography>
               <FormGroup row>

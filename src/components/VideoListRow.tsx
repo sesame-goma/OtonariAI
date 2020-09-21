@@ -73,7 +73,7 @@ export default function ChannelListRow(item) {
       <Divider component="li" className={classes.divider} />
       <div className={classes.listRow}>
         <Link
-          href={`/analytics/${item.item.snippet.channelId}`}
+          href={`/analytics/?id=${item.item.snippet.channelId}`}
           underline="none"
           color="inherit"
         >
@@ -88,7 +88,7 @@ export default function ChannelListRow(item) {
             <ListItemText
               primary={item.item.snippet.title}
               secondary={
-                <div style={{marginTop: 10}}>
+                <div style={{ marginTop: 10 }}>
                   <Typography
                     component="span"
                     variant="body2"
@@ -99,7 +99,7 @@ export default function ChannelListRow(item) {
                   </Typography>
                 </div>
               }
-              style={{marginLeft: 30}}
+              style={{ marginLeft: 30 }}
             />
           </ListItem>
         </Link>
