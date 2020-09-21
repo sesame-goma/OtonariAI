@@ -204,7 +204,7 @@ const IndexPage = () => {
                   <SimpleCard
                     src="/graph.png"
                     title="2. 分析する"
-                    body={`Youtuberがリーチできる顧客層を知りましょう。\n若者向けや女性向けなどターゲットを絞り込めます。`}
+                    body={`Youtuberがリーチできる顧客層を知りましょう。\n若者向けや女性向けなど、効果的にターゲットを絞り込めます。`}
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>
@@ -240,25 +240,25 @@ const IndexPage = () => {
           </div>
           <div>
             <Grid container spacing={3}>
-              <Grid item sm={4} xs={12}>
+              <Grid item sm={12} md={4}>
                 <SimpleCard
                   src="/key.png"
                   title="1. ログインする"
                   body={`Jucyにログインしましょう。\nGoogleアカウントと、YoutubeチャンネルIDでログインできます。`}
                 />
               </Grid>
-              <Grid item sm={4} xs={12}>
+              <Grid item sm={12} md={4}>
                 <SimpleCard
                   src="/talk.png"
                   title="2. 依頼を受ける"
-                  body={`飲食店から食レポ依頼を受けられます。\n依頼は一覧で表示することができます。`}
+                  body={`Jucyで飲食店から食レポ依頼を受けられます。\n依頼は一覧形式で表示することができます。`}
                 />
               </Grid>
               <Grid item sm={4} xs={12}>
                 <SimpleCard
                   src="/youtube.png"
                   title="3. 食レポする"
-                  body={`店舗へ赴き、食レポ動画を撮影します。\nYoutubeに動画をアップロードして完了です。`}
+                  body={`店舗へ赴き、食レポ動画を撮影しましょう。\nYoutubeに動画をアップロードして完了です。`}
                 />
               </Grid>
             </Grid>
