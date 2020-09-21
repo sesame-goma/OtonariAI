@@ -1,11 +1,11 @@
 import { createContext, useCallback, useState } from 'react';
 
 type Context = {
-  channels: Array<Object>
+  channel: Object
 };
 
 const defaultContext: Context = {
-  channels: [],
+  channel: [],
 }
 
 export const GlobalContext = createContext({});
@@ -13,12 +13,12 @@ export const GlobalContext = createContext({});
 export const GlobalProvider = ({
   children, value
 }) => {
-    const [channels, setChannelsResult] = useState(value);
+    const [channel, setTargetChannel] = useState(value);
     return (
       <GlobalContext.Provider
         value={{
-          channels,
-          setChannelsResult,
+          channel,
+          setTargetChannel,
         }}
       >
         {children}

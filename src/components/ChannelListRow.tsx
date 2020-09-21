@@ -1,6 +1,7 @@
 
 import React, { useState, useContext, useEffect } from 'react';
 import Router, { useRouter } from 'next/router'
+import { useChannels } from '../utils/hooks/useChannels'
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Link from '../components/link'
 import List from '@material-ui/core/List';
@@ -18,8 +19,7 @@ import { GlobalProvider, GlobalContext } from '../utils/context/context';
 import Button from "@material-ui/core/Button";
 
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
+const useStyles = makeStyles((theme: Theme) => createStyles({
     container: {
       "&:hover": {
         backgroundColor: theme.palette.grey[50],
@@ -38,10 +38,6 @@ const useStyles = makeStyles((theme: Theme) =>
     listRow: {
       paddingBottom: 10,
     },
-    button: {
-      marginTop: 10,
-      marginLeft: 16,
-    },
   })
 );
 
@@ -52,26 +48,17 @@ type Props = {
 
 export default function ChannelListRow({ item }: Props) {
   const classes = useStyles();
-  const onPress = () => {
-    Router.push({
-      pathname: "/reserve/apply",
-      query: {
-        id: item.id,
-      },
-    });
-  };
   const ctx = useContext(GlobalContext);
   const router = useRouter();
-  const handleClick = () => {
-    const targetCh = ctx.channels.filter((ch) => item.id === ch.id);
-    ctx.setChannelsResult(targetCh[0]);
-  };
+  const handleClick = () => ctx.setTargetChannel(item);
+
+  const { setTargetChannel }: () => void = useChannels(router.query);
   return (
-    <GlobalContext.Provider value={ctx}>
+    <GlobalContext.Provider value={{ item, setTargetChannel }}>
       <div className={classes.container} key={item.key}>
         <Divider component="li" className={classes.divider} />
         <div className={classes.listRow}>
-          <Link onClick={handleClick} href="/analytics" underline="none" color="inherit">
+          <Link onClick={handleClick} href={`/analytics?id=${item.id}`} underline="none" color="inherit">
             <ListItem alignItems="flex-start">
               {/* <ListItem alignItems="flex-start" button onClick={handleClick}> */}
               <ListItemAvatar>
@@ -114,11 +101,6 @@ export default function ChannelListRow({ item }: Props) {
               />
             </ListItem>
           </Link>
-          <div className={classes.button}>
-            <Button variant="contained" color="secondary" onClick={onPress}>
-              申し込む
-            </Button>
-          </div>
         </div>
       </div>
     </GlobalContext.Provider>

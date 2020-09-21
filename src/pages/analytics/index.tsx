@@ -1,16 +1,7 @@
 import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useLayoutEffect } from "react";
 import R from "ramda";
-import {
-  VictoryGroup,
-  VictoryPie,
-  VictoryChart,
-  VictoryBar,
-  VictoryScatter,
-  VictoryTheme,
-  VictoryAxis,
-} from "victory";
 
 import {
   BarChart,
@@ -50,6 +41,7 @@ import { Rating } from "@material-ui/lab";
 
 import { AgeAndGender } from "../../types";
 import { Data, User } from "../../types";
+import { useChannels } from '../../utils/hooks/useChannels.ts'
 import { GlobalContext } from "../../utils/context/context";
 
 import { Country, Gender, Age, DoW } from "../../types/analytics";
@@ -166,11 +158,10 @@ const WeekHourTimeActive = ({ data }: dataWeekActive) => {
   );
 };
 
-const fetcher = (url: string) =>
-  fetch(url, {
-    method: "GET",
-    headers: new Headers({ "Content-Type": "application/json" }),
-  }).then((res) => res.json());
+const fetcher = (url: string) => fetch(url, {
+  method: "GET",
+  headers: new Headers({ "Content-Type": "application/json" }),
+}).then((res) => res.json());
 
 const Analytics = ({
   items,
@@ -178,18 +169,34 @@ const Analytics = ({
   dataAgeAndGender,
   dataWeekActive,
 }: Props) => {
-  const { channels } = useContext(GlobalContext);
+  const { channel, setTargetChannel } = useContext(GlobalContext);
   const classes = useStyles();
   const router = useRouter();
-  useEffect(() => {
-    if (!channels) {
+  useLayoutEffect(async() => {
+    if (!router.query) {
       router.push("/");
       return;
     }
-  }, [channels]);
 
-  const { data, error } = useSWR(
-    `https://www.googleapis.com/youtube/v3/search?key=${process.env.YOUTUBE_API_KEY}&part=snippet&channelId=${channels.id}&q=食レポ&maxResults=3&regionCode=jp&type=video`,
+    if (!channel) {
+      const { channels }: Array<item> = await useChannels(router.query);
+      const targetCh = channels.filter((ch) => router.query.id === ch.id);
+
+    }
+  }, [channel]);
+
+  const handleApply = () => {
+    if(!channel) { return; }
+    router.push({
+      pathname: "/reserve/apply",
+      query: {
+        id: channel.id,
+      },
+    });
+  };
+
+  const res = channel && useSWR(
+    `https://www.googleapis.com/youtube/v3/search?key=${process.env.YOUTUBE_API_KEY}&part=snippet&channelId=${channel.id}&q=食レポ&maxResults=3&regionCode=jp&type=video`,
     fetcher
   );
 
@@ -210,7 +217,7 @@ const Analytics = ({
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <YoutuberInfoPaper channels={channels} />
+            <YoutuberInfoPaper channel={channel} handleApply={handleApply} />
           </Grid>
           <Grid item xs={3}>
             <Card valiant="outlined" style={{ padding: 20 }}>
@@ -218,7 +225,7 @@ const Analytics = ({
                 チャンネル登録者数
               </Typography>
               <Typography variant="h3">
-                {parseInt(channels?.subscriberCount).toLocaleString() || 100000}
+                {parseInt(channel?.subscriberCount).toLocaleString() || 100000}
               </Typography>
             </Card>
           </Grid>
@@ -229,7 +236,7 @@ const Analytics = ({
                 総視聴者数
               </Typography>
               <Typography variant="h3">
-                {parseInt(channels?.viewCount).toLocaleString() || 100000000}
+                {parseInt(channel?.viewCount).toLocaleString() || 100000000}
               </Typography>
             </Card>
           </Grid>
@@ -240,7 +247,7 @@ const Analytics = ({
                 動画投稿数
               </Typography>
               <Typography variant="h3">
-                {parseInt(channels?.videoCount).toLocaleString() || 10000}
+                {parseInt(channel?.videoCount).toLocaleString() || 10000}
               </Typography>
             </Card>
           </Grid>
@@ -251,7 +258,7 @@ const Analytics = ({
                 総コメント数
               </Typography>
               <Typography variant="h3">
-                {parseInt(channels?.commentCount).toLocaleString() || 10000}
+                {parseInt(channel?.commentCount).toLocaleString() || 10000}
               </Typography>
             </Card>
           </Grid>
@@ -323,7 +330,6 @@ const Analytics = ({
               <WeekHourTimeActive data={dataWeekActive} />
             </Card>
           </Grid>
-
         </Grid>
       </div>
     </Layout>

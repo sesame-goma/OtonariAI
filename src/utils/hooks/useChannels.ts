@@ -50,7 +50,7 @@ const chFilter = (data: [], query: {}) => {
   return filteredData;
 }
 
-const useChannel = (query: {}) => {
+const useChannels = (query: {}) => {
   const [channels, setChannels] = useState()
   const router = useRouter()
 
@@ -75,11 +75,11 @@ const useChannel = (query: {}) => {
     fetch(searchURL).then(data => setChannels(data));
   }, [queryJsonString]);
 
-  const setChannelsResult = useCallback((results: Array<Object>) => {
+  const setTargetChannel = useCallback((results: Array<Object>) => {
     setChannels(results);
   }, []);
 
-  return { channels, setChannelsResult };
+  return { channels, setTargetChannel };
 }
 
-export { useChannel }
+export { useChannels }

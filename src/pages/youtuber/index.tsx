@@ -10,7 +10,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Router, { useRouter } from 'next/router'
-import { useChannel } from '../../utils/hooks/useChannel'
+import { useChannels } from '../../utils/hooks/useChannels'
 import useFormInput from '../../utils/hooks/useFormInput'
 import ChannelList from '../../components/ChannelList'
 import { item } from '../../types/youtuber/index';
@@ -42,7 +42,7 @@ const ValidationTextField = withStyles({
 const YoutuberIndex = () => {
   const classes = useStyles();
   const router = useRouter();
-  const { channels, setChannelsResult }: Array<item> = useChannel(router.query);
+  const { channels }: Array<item> = useChannels(router.query);
 
   const minSubscriberCount = useFormInput();
   const maxSubscriberCount = useFormInput();
@@ -80,8 +80,6 @@ const YoutuberIndex = () => {
   if (minViewCount.value) query.minViewCount = minViewCount.value;
   if (maxViewCount.value) query.maxViewCount = maxViewCount.value;
 
-  const context = useContext(GlobalContext);
-  context.setChannelsResult(channels);
   const submit = () => {
     Router.push({
       pathname: '/youtuber',
@@ -90,8 +88,6 @@ const YoutuberIndex = () => {
   }
 
   return (
-    <GlobalContext.Provider value={{ channels, setChannelsResult }}>
-      {console.log(channels)}
       <Container maxWidth="md">
         <Layout title="Home | Jucy">
           <div className={classes.mainContainer}>
@@ -244,7 +240,6 @@ const YoutuberIndex = () => {
           {channels && <ChannelList items={channels} />}
         </Layout>
       </Container>
-    </GlobalContext.Provider>
   );
 }
 
