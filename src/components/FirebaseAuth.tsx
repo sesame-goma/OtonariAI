@@ -29,11 +29,13 @@ const firebaseAuthConfig = {
       mapUserData(user).then((userData: any) => {
         setUserCookie(userData);
         // データが入っていない(=未登録)ならサインアップへ飛ばす
-        if (!userData.data) {
+        if (!userData.type) {
           ~Router.pathname.indexOf('eatery')
             ? Router.push('/eatery/signup')
             : Router.push('/youtuber/signup')
           return false;
+        } else {
+          Router.push('/')
         }
       })
     },

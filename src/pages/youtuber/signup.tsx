@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3),
+    textAlign: 'center',
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -93,30 +93,16 @@ export default function SignUpPage() {
               {...channelIdInput}
             />
           </Grid>
-          <Grid item xs={12}>
-            <FormControlLabel
-              control={<Checkbox value="allowExtraEmails" color="primary" />}
-              label="利用規約に同意する的なやつ"
-            />
-          </Grid>
         </Grid>
         <Button
-          // type="submit"
-          fullWidth
           variant="contained"
           color="primary"
           className={classes.submit}
           onClick={submit}
+          style={{textAlign: 'center'}}
         >
           サインアップ
         </Button>
-        <Grid container justify="flex-end">
-          <Grid item>
-            <Link href="/login" variant="body2">
-              既に登録済ですか？ ログイン
-            </Link>
-          </Grid>
-        </Grid>
       </form>
     </div>
   );
