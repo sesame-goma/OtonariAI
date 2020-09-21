@@ -116,7 +116,7 @@ const ListPage = () => {
           });
         });
     }
-  }, [user]);
+  }, user);
 
   if (!messages) {
     return <p>loading</p>;
