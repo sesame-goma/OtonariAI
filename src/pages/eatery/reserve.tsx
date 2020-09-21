@@ -7,7 +7,6 @@ import { Message } from "../../types/index";
 import { useUser } from "../../utils/firebase/useUser";
 import { makeStyles } from "@material-ui/core/styles";
 import {
-  ListItemText,
   ListItemAvatar,
   ListItem,
   Typography,
@@ -49,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     width: "100%",
-    maxWidth: "36ch",
+    // maxWidth: "36ch",
     backgroundColor: theme.palette.background.paper,
   },
 }));
@@ -57,37 +56,27 @@ const useStyles = makeStyles((theme) => ({
 const ListRow = (data) => {
   const { message } = data;
   return (
-    <ListItem alignItems="flex-start">
-      <ListItemAvatar>
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-      </ListItemAvatar>
-      <ListItemText
-        primary={message.youtuberName}
-        secondary={
-          <React.Fragment>
-            <Typography component="span" variant="body2" color="textPrimary">
-              {`${message.title} - ${message.content}`}{" "}
-            </Typography>
-            <Typography
-              component="span"
-              variant="body2"
-              style={{ display: "block" }}
-              color="textSecondary"
-            >
-              {message.processed ? "対応済み" : "返信待ち"}
-            </Typography>
-            <Typography>
-              {" "}
-              <Link
-                href={`https://www.youtube.com/channel/${message.youtuberId}`}
-              >
-                <a target="_blank">{message.youtuberName}</a>
-              </Link>
-            </Typography>
-          </React.Fragment>
-        }
-      />
-    </ListItem>
+    <List alignItems="flex-start">
+      <ListItem>
+        <ListItemAvatar>
+          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        </ListItemAvatar>
+        <ListItem>
+          <Typography color="textPrimary" style={{marginRight: 'auto'}}>
+            {message.eateryName}
+          </Typography>
+          <Typography color="textSecondary" style={{marginLeft: 'auto'}}>
+            {`依頼日: ${message.reservedAt}`}
+          </Typography>
+        </ListItem>
+      </ListItem>
+      <ListItem>
+        <Typography>{`タイトル: ${message.title}`}</Typography>
+      </ListItem>
+      <ListItem>
+        <Typography>{`依頼内容: ${message.content}`}</Typography>
+      </ListItem>
+    </List>
   );
 };
 
@@ -107,13 +96,8 @@ const ListPage = () => {
           snapShot.forEach((doc) => {
             const date = doc.data().reservedAt.toDate();
             const formatDate = `
-            ${date.getFullYear()}-
-            ${date.getMonth() + 1}-
-            ${date.getDate()}-
-            ${date.getHours()}:
-            ${date.getMinutes()}:
-            ${date.getSeconds()}
-            `.replace(/\n|\r/g, "");
+            ${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+              .replace(/\n|\r/g, "");
 
             setMessages((messages) =>
               messages.concat({
@@ -153,9 +137,6 @@ const ListPage = () => {
               </div>
             ))}
           </List>
-          <Link href="/">
-            <a>Go Top</a>
-          </Link>{" "}
         </div>
       </Layout>
     </Container>

@@ -15,14 +15,11 @@ import { useReserveCount } from '../utils/hooks/useReserveCount';
 
 export default function GlobalMenu() {
   const { user, logout } = useUser();
-  // const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
-  // const open = Boolean(anchorEl);
   const router = useRouter();
-  // console.log('u', user)
   const { count } = useReserveCount(user);
-  console.log('notification',count);
+  console.log('count',count);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
