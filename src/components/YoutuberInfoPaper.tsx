@@ -17,7 +17,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const YoutuberInfoPaper = ({ channel, handleApply }) => {
+const YoutuberInfoPaper = ({ channel, handleApply, isVisibleButton }) => {
   const classes = useStyles();
   return (
     <Paper>
@@ -42,9 +42,11 @@ const YoutuberInfoPaper = ({ channel, handleApply }) => {
             />
           </ListItem>
           <ListItemSecondaryAction classes={classes.button}>
-            <Button variant="contained" color="secondary" onClick={handleApply}>
-              食レポを申し込む
-            </Button>
+            {isVisibleButton && (
+              <Button variant="contained" color="secondary" onClick={handleApply}>
+                食レポを申し込む
+              </Button>
+            )}
           </ListItemSecondaryAction>
         </List>
       )}

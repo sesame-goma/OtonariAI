@@ -51,6 +51,7 @@ import YoutuberInfoPaper from "../../components/YoutuberInfoPaper";
 import YoutubeVideo from "../../components/YoutubeVideo";
 import { useStyles } from "../analytics/styles";
 import useSWR from "swr";
+import { useRegisteredYoutuber } from '../../utils/hooks/useRegisteredYoutuber';
 
 const APIKEY = process.env.YOUTUBE_API_KEY;
 
@@ -181,6 +182,7 @@ const Analytics = ({
   const [channel, setChannel] = useState(targetChannel || ch);
   const classes = useStyles();
   const router = useRouter();
+  const { isRegistered } = useRegisteredYoutuber(channel?.id);
 
   useEffect(() => {
     if (!router.query) {
@@ -216,10 +218,10 @@ const Analytics = ({
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <YoutuberInfoPaper channel={channel} handleApply={handleApply} />
+            <YoutuberInfoPaper channel={channel} handleApply={handleApply} isVisibleButton={isRegistered}/>
           </Grid>
           <Grid item xs={3}>
-            <Card valiant="outlined" style={{ padding: 20 }}>
+            <Card variant="outlined" style={{ padding: 20 }}>
               <Typography variant="h6" color="textSecondary">
                 チャンネル登録者数
               </Typography>
