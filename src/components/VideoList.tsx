@@ -22,7 +22,6 @@ type Props = {
 
 export default function VideosList({ items }: Props) {
   const classes = useStyles();
-  console.log(items);
   return (
     <List className={classes.root}>
       {items &&

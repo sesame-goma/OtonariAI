@@ -102,7 +102,6 @@ const ApplyPage = () => {
   );
 
   const submitMessage = () => {
-    // 後々のundefチェックをマジでやりたくないので全部必須項目にしたろｗ
     if (title.value === "" || content.value === "" || address.value === "")
       return;
 
