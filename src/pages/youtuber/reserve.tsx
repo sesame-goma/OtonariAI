@@ -128,7 +128,7 @@ const ListPage = () => {
           });
         });
     }
-  }, [user]);
+  }, user);
 
   const onPress = async (button: boolean, id: string) => {
     const reservationRef = db.collection("reservation").doc(id);
