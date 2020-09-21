@@ -116,7 +116,7 @@ const category = {
   chinese: '中華',
   ramen: 'ラーメン',
   cafe: 'カフェ',
-  sweet: 'スイート',
+  sweets: 'スイート',
   chili: '激辛',
 }
 

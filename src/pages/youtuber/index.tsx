@@ -56,7 +56,7 @@ const YoutuberIndex = () => {
     chinese: router.query.chinese || false,
     ramen: router.query.ramen || false,
     cafe: router.query.cafe || false,
-    sweet: router.query.sweet || false,
+    sweets: router.query.sweets || false,
     chili: router.query.chili || false,
   });
   const handleChangeCheckBox = (event) => {
@@ -70,7 +70,7 @@ const YoutuberIndex = () => {
   if (state.chinese) searchKeyword += '%7C中華';
   if (state.ramen) searchKeyword += '%7Cラーメン';
   if (state.cafe) searchKeyword += '%7Cカフェ';
-  if (state.sweet) searchKeyword += '%7Cスイート';
+  if (state.sweets) searchKeyword += '%7Cスイート';
   if (state.chili) searchKeyword += '%7C激辛';
   if (Object.keys(state).some(i => state[i]===true)) searchKeyword += ')';
 
@@ -153,9 +153,9 @@ const YoutuberIndex = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={state.sweet}
+                      checked={state.sweets}
                       onChange={handleChangeCheckBox}
-                      name="sweet"
+                      name="sweets"
                     />
                   }
                   label="スイーツ"

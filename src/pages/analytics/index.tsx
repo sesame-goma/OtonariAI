@@ -256,6 +256,27 @@ const Analytics = ({
             </Card>
           </Grid>
 
+
+          <Grid item xs={12}>
+            <Typography
+              variant="h6"
+              style={{
+                marginTop: 20,
+                borderBottom: "1px solid black",
+                fontWeight: "bold",
+              }}
+            >
+              最近の動画
+            </Typography>
+          </Grid>
+          {data &&
+            data.items.length !== -1 &&
+            data.items.map((video) => (
+              <Grid item xs={4}>
+                <YoutubeVideo video={video} />
+              </Grid>
+            ))}
+
           <Grid item xs={12}>
             <Typography
               variant="h6"
@@ -302,25 +323,7 @@ const Analytics = ({
               <WeekHourTimeActive data={dataWeekActive} />
             </Card>
           </Grid>
-          <Grid item xs={12}>
-            <Typography
-              variant="h6"
-              style={{
-                marginTop: 20,
-                borderBottom: "1px solid black",
-                fontWeight: "bold",
-              }}
-            >
-              最近の動画
-            </Typography>
-          </Grid>
-          {data &&
-            data.items.length !== -1 &&
-            data.items.map((video) => (
-              <Grid item xs={4}>
-                <YoutubeVideo video={video} />
-              </Grid>
-            ))}
+
         </Grid>
       </div>
     </Layout>
