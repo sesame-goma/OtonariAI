@@ -147,7 +147,6 @@ const IndexPage = () => {
   return (
     <Layout title="Home | Jucy">
       <ThemeProvider theme={theme}>
-
         <div className={classes.mainContainer}>
           <img src="/top.jpg" className={classes.fullWidthImg} />
           <div className={classes.overText}>

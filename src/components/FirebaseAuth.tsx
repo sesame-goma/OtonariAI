@@ -35,7 +35,7 @@ const firebaseAuthConfig = {
             : Router.push('/youtuber/signup')
           return false;
         } else {
-          Router.push('/')
+          Router.push('/?type=success&message=ログインしました')
         }
       })
     },
