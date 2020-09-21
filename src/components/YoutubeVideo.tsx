@@ -15,28 +15,41 @@ const useStyles = makeStyles({
     paddingLeft: 20,
     paddingRight: 20,
   },
+  wrap: {
+    position: 'relative',
+  },
+  img: {
+    position: 'absolute',
+    top: '7.5vw',
+    left: '13vw',
+    width: '4vw',
+
+  },
 });
 
 const YoutubeVideo = (props) => {
   const classes = useStyles();
   const { video } = props;
   return (
-    <Link href={`https://www.youtube.com/watch?v=${video.id.videoId}`}>
-      <Card className={classes.root}>
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            alt="video thumbnail"
-            image={video.snippet.thumbnails.medium.url}
-          />
-          <CardContent>
-            <Typography variant="h6">
-              {video.snippet.title}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    </Link>
+    <div className={classes.wrap}>
+      <Link href={`https://www.youtube.com/watch?v=${video.id.videoId}`}>
+        <Card className={classes.root}>
+          <CardActionArea>
+            <CardMedia
+              component="img"
+              alt="video thumbnail"
+              image={video.snippet.thumbnails.medium.url}
+            />
+            <CardContent>
+              <Typography variant="h6">
+                {video.snippet.title}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Link>
+      <img src="/youtube_social_icon_red.png" className={classes.img} />
+    </div>
   );
 };
 
