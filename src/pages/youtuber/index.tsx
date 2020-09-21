@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
   },
   mainContainer: {
     paddingTop: 30,
-    paddingLeft: 16,
   },
   searchContainer: {
     padding: 30,
@@ -49,17 +48,16 @@ const YoutuberIndex = () => {
   const maxSubscriberCount = useFormInput();
   const minViewCount = useFormInput();
   const maxViewCount = useFormInput();
-  let word = String(router.query.keyword).replace(/\(.*/g, '');
+  let word = router.query.keyword ? String(router.query.keyword).replace(/\(.*/g, '') : '';
   const baseKeyword = useFormInput(word);
-
   const [state, setState] = useState({
-    japanese: false,
-    european: false,
-    chinese: false,
-    ramen: false,
-    cafe: false,
-    sweet: false,
-    chili: false,
+    japanese: router.query.japanese || false,
+    european: router.query.european || false,
+    chinese: router.query.chinese || false,
+    ramen: router.query.ramen || false,
+    cafe: router.query.cafe || false,
+    sweet: router.query.sweet || false,
+    chili: router.query.chili || false,
   });
   const handleChangeCheckBox = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
