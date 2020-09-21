@@ -220,6 +220,7 @@ const Analytics = ({
           <Grid item xs={12}>
             <YoutuberInfoPaper channel={channel} handleApply={handleApply} isVisibleButton={isRegistered}/>
           </Grid>
+
           <Grid item xs={3}>
             <Card variant="outlined" style={{ padding: 20 }}>
               <Typography variant="h6" color="textSecondary">
