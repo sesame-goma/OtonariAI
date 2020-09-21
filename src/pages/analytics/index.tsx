@@ -57,7 +57,9 @@ import { sampleAnalyticData, sampleUserData } from "../../utils/sample-data";
 import Layout from "../../components/Layout";
 import List from "../../components/List";
 import YoutuberInfoPaper from "../../components/YoutuberInfoPaper";
+import YoutubeVideo from "../../components/YoutubeVideo";
 import { useStyles } from "../analytics/styles";
+import useSWR from "swr";
 
 type Props = {
   dataCountries: any;
@@ -104,36 +106,6 @@ const OneDayChart = (props) => {
   const { data, max, day } = props;
   const domain = [0, max];
   const range = [1, 255];
-  const renderTooltip = (props) => {
-    const { active, payload } = props;
-
-    if (active && payload && payload.length) {
-      const data = payload[0] && payload[0].payload;
-
-      return (
-        <div
-          style={{
-            backgroundColor: "#fff",
-            border: "1px solid #999",
-            margin: 0,
-            padding: 10,
-          }}
-        >
-          <p>
-            <span>時間帯: </span>
-            {data.hour}
-          </p>
-          <p>
-            <span>視聴率: </span>
-            {data.value}
-          </p>
-        </div>
-      );
-    }
-
-    return null;
-  };
-
   data.forEach((item) => delete item.day);
   return (
     <div>
@@ -194,6 +166,12 @@ const WeekHourTimeActive = ({ data }: dataWeekActive) => {
   );
 };
 
+const fetcher = (url: string) =>
+  fetch(url, {
+    method: "GET",
+    headers: new Headers({ "Content-Type": "application/json" }),
+  }).then((res) => res.json());
+
 const Analytics = ({
   items,
   dataCountries,
@@ -202,11 +180,19 @@ const Analytics = ({
 }: Props) => {
   const { channels } = useContext(GlobalContext);
   const classes = useStyles();
-  console.log(channels);
   const router = useRouter();
   useEffect(() => {
-    !channels && router.push("/");
+    if (!channels) {
+      router.push("/");
+      return;
+    }
   }, [channels]);
+
+  const { data, error } = useSWR(
+    `https://www.googleapis.com/youtube/v3/search?key=${process.env.YOUTUBE_API_KEY}&part=snippet&channelId=${channels.id}&q=食レポ&maxResults=3&regionCode=jp&type=video`,
+    fetcher
+  );
+
   return (
     <Layout title="Analytics | Jucy">
       <div style={{ margin: 20 }}>
@@ -300,7 +286,6 @@ const Analytics = ({
               </PieChart>
             </Card>
           </Grid>
-
           <Grid item xs={4}>
             <Card style={{ padding: 20 }}>
               <Typography variant="h6" color="textSecondary">
@@ -309,7 +294,6 @@ const Analytics = ({
               <AgeAndGenderChart data={dataAgeAndGender} />
             </Card>
           </Grid>
-
           <Grid item xs={5}>
             <Card style={{ padding: 20 }}>
               <Typography variant="h6" color="textSecondary">
@@ -318,6 +302,25 @@ const Analytics = ({
               <WeekHourTimeActive data={dataWeekActive} />
             </Card>
           </Grid>
+          <Grid item xs={12}>
+            <Typography
+              variant="h6"
+              style={{
+                marginTop: 20,
+                borderBottom: "1px solid black",
+                fontWeight: "bold",
+              }}
+            >
+              最近の動画
+            </Typography>
+          </Grid>
+          {data &&
+            data.items.length !== -1 &&
+            data.items.map((video) => (
+              <Grid item xs={4}>
+                <YoutubeVideo video={video} />
+              </Grid>
+            ))}
         </Grid>
       </div>
     </Layout>
