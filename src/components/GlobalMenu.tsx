@@ -2,11 +2,34 @@ import React, { Component, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
 import Link from '../components/Link';
 import { useUser } from '../utils/firebase/useUser';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import IconButton from '@material-ui/core/IconButton';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Badge from '@material-ui/core/Badge';
+import { useRouter } from 'next/router'
+import { useReserveCount } from '../utils/hooks/useReserveCount';
 
 export default function GlobalMenu() {
   const { user, logout } = useUser();
+  // const [auth, setAuth] = useState(true);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const router = useRouter();
+  // console.log('u', user)
+  const { count } = useReserveCount(user);
+  console.log('notification',count);
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <div>
@@ -19,10 +42,45 @@ export default function GlobalMenu() {
           {(() => {
           if (user) {
             return (
-              <div style={{margin: '0 0 0 auto'}}>
-                <Button variant="contained" color="secondary" onClick={() => logout()}>
-                  ログアウト
-                </Button>
+              <div style={{marginLeft: 'auto'}}>
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <Badge color="primary" badgeContent={count || 0}>
+                    <AccountCircle />
+                  </Badge>
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={open}
+                  onClose={handleClose}
+                >
+                    <MenuItem
+                      onClick={() => user.type === 'eatery'
+                        ? router.push("/eatery/reserve")
+                        : router.push("/youtuber/reserve")
+                      }
+                    >
+                      <Badge color="primary" variant="dot" invisible={!count}>
+                        予約一覧
+                      </Badge>
+                    </MenuItem>
+                  <MenuItem onClick={() => logout()}>ログアウト</MenuItem>
+                </Menu>
               </div>
             )
           } else {

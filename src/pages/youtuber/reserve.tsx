@@ -9,6 +9,7 @@ import { useUser } from "../../utils/firebase/useUser";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
+  List,
   ListItemText,
   ListItemAvatar,
   ListItem,
@@ -55,11 +56,36 @@ const ListRow = (data) => {
   const { message, onPress } = data;
 
   return (
-    <ListItem alignItems="flex-start">
-      <ListItemAvatar>
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-      </ListItemAvatar>
-      <ListItemText
+    <List alignItems="flex-start">
+      <ListItem>
+        <ListItemAvatar>
+          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        </ListItemAvatar>
+        <ListItem>
+          <Typography color="textPrimary" style={{marginRight: 'auto'}}>
+            {message.eateryName}
+          </Typography>
+          <Typography color="textSecondary" style={{marginLeft: 'auto'}}>
+            {`依頼日: ${message.reservedAt}`}
+          </Typography>
+        </ListItem>
+      </ListItem>
+      <ListItem>
+        <Typography>{`タイトル: ${message.title}`}</Typography>
+      </ListItem>
+      <ListItem>
+        <Typography>{`依頼内容: ${message.content}`}</Typography>
+      </ListItem>
+      <ListItem>
+        <Button
+          variant="contained"
+          color={message.processed ? "primary" : "secondary"}
+          onClick={() => onPress(message.processed, message.id)}
+        >
+          {message.processed ? "未対応に変更" : "対応済みに変更"}
+        </Button>
+      </ListItem>
+      {/* <ListItemText
         primary={message.eateryName}
         secondary={
           <React.Fragment>
@@ -78,8 +104,8 @@ const ListRow = (data) => {
             受信日：{message.reservedAt}
           </React.Fragment>
         }
-      />
-    </ListItem>
+      /> */}
+    </List>
   );
 };
 
@@ -139,8 +165,8 @@ const ListPage = () => {
     <Container maxWidth="md">
       <Layout title="予約一覧">
         <div className={classes.mainContainer}>
-          <Typography variant="h4" component="h1" gutterBottom>
-            飲食店からの予約申し込み一覧{" "}
+          <Typography variant="h6" component="h1" gutterBottom>
+            食レポ依頼一覧{" "}
           </Typography>
           {messages.map((message) => (
             <div>
