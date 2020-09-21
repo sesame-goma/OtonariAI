@@ -91,6 +91,7 @@ const YoutuberIndex = () => {
 
   return (
     <GlobalContext.Provider value={{ channels, setChannelsResult }}>
+      {console.log(channels)}
       <Container maxWidth="md">
         <Layout title="Home | Jucy">
           <div className={classes.mainContainer}>
