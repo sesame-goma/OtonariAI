@@ -1,4 +1,3 @@
-
 import { useEffect, useState, } from 'react'
 import YoutuberIndex from '../../pages/youtuber';
 import { db } from "../firebase/initFirebase";

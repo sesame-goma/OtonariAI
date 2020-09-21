@@ -41,7 +41,6 @@ import { Rating } from "@material-ui/lab";
 
 import { AgeAndGender } from "../../types";
 import { Data, User } from "../../types";
-import { useChannel } from '../../utils/hooks/useChannels.ts'
 import { GlobalContext } from "../../utils/context/context";
 
 import { Country, Gender, Age, DoW } from "../../types/analytics";
@@ -52,6 +51,8 @@ import YoutuberInfoPaper from "../../components/YoutuberInfoPaper";
 import YoutubeVideo from "../../components/YoutubeVideo";
 import { useStyles } from "../analytics/styles";
 import useSWR from "swr";
+
+const APIKEY = process.env.YOUTUBE_API_KEY;
 
 type Props = {
   dataCountries: any;
@@ -158,33 +159,35 @@ const WeekHourTimeActive = ({ data }: dataWeekActive) => {
   );
 };
 
-const fetcher = (url: string) => fetch(url, {
+const videoFetcher = (url: string) => fetch(url, {
+  method: "GET",
+  headers: new Headers({ "Content-Type": "application/json" }),
+}).then((res) => res.json());
+
+const channelFetcher = (url: string) => fetch(url, {
   method: "GET",
   headers: new Headers({ "Content-Type": "application/json" }),
 }).then((res) => res.json());
 
 const Analytics = ({
+  ch,
+  vi,
   items,
   dataCountries,
   dataAgeAndGender,
   dataWeekActive,
 }: Props) => {
   const { targetChannel } = useContext(GlobalContext);
-  const [channel, setChannel] = useState(targetChannel);
+  const [channel, setChannel] = useState(targetChannel || ch);
   const classes = useStyles();
   const router = useRouter();
-  useLayoutEffect(() => {
-    if (!router.query || !channel) {
-      router.push("/");
+
+  useEffect(() => {
+    if (!router.query) {
+      router.push("/?type=error&message=チャンネルが存在しません");
       return;
     }
-  }, [channel]);
-
-  if (!channel) { 
-    // todo 直たたき
-    const res: Array<item> = useChannel(router.query);
-    setChannel(res.ch);
-  }
+  }, []);
 
   const handleApply = () => {
     if(!router.query) { return; }
@@ -195,11 +198,6 @@ const Analytics = ({
       },
     });
   };
-
-  const res = channel && useSWR(
-    `https://www.googleapis.com/youtube/v3/search?key=${process.env.YOUTUBE_API_KEY}&part=snippet&channelId=${channel.id}&q=食レポ&maxResults=3&regionCode=jp&type=video`,
-    fetcher
-  );
 
   return (
     <Layout title="Analytics | Jucy">
@@ -277,13 +275,11 @@ const Analytics = ({
               最近の動画
             </Typography>
           </Grid>
-          {data &&
-            data.items.length !== -1 &&
-            data.items.map((video) => (
-              <Grid item xs={4}>
-                <YoutubeVideo video={video} />
-              </Grid>
-            ))}
+          {Array.isArray(vi) && data.items.map((video) => (
+            <Grid item xs={4}>
+              <YoutubeVideo video={video} />
+            </Grid>
+          ))}
 
           <Grid item xs={12}>
             <Typography
@@ -337,7 +333,40 @@ const Analytics = ({
   );
 };
 
-export const getServerSideProps: GetStaticProps = async () => {
+export const getServerSideProps: GetStaticProps = async (ctx: any) => {
+  const chRes = await fetch(
+    `https://www.googleapis.com/youtube/v3/channels?key=${APIKEY}&id=${ctx.query.id}&part=id,snippet,statistics&maxResults=10&regionCode=jp`,
+    {
+      method: "GET",
+      headers: new Headers({ "Content-Type": "application/json" }),
+    }
+  ).then((res) => res.json());
+  const temp = chRes?.items?.reduce((acc: Array<Object>, cur: Object, idx: number) => {
+    const obj = {
+      key: idx,
+      id: cur.id || "",
+      title: cur.snippet.title || "no title",
+      thumbnail: cur.snippet.thumbnails.default.url || "none",
+      description: cur.snippet.description || "",
+      subscriberCount: parseInt(cur.statistics.subscriberCount) || 0,
+      viewCount: parseInt(cur.statistics.viewCount) || 0,
+      videoCount: parseInt(cur.statistics.videoCount) || 0,
+      commentCount: parseInt(cur.statistics.commentCount) || 0,
+    }
+    acc.push(obj);
+    return acc;
+  }, []);
+  const ch = temp && temp[0];
+
+  const viRes = await fetch(
+    `https://www.googleapis.com/youtube/v3/search?key=${APIKEY}&part=snippet&channelId=${ctx.query.id}&q=%E9%A3%9F%E3%83%AC%E3%83%9D&maxResults=3&regionCode=jp&type=video`,
+    {
+      method: "GET",
+      headers: new Headers({ "Content-Type": "application/json" }),
+    }
+  ).then((res) => res.json());
+  const vi = viRes?.items?.length !== -1 && viRes?.items;
+
   const items: User[] = sampleUserData;
   const data: Data = sampleAnalyticData;
 
@@ -385,6 +414,8 @@ export const getServerSideProps: GetStaticProps = async () => {
   );
   return {
     props: {
+      ch,
+      vi,
       items,
       dataCountries,
       dataAgeAndGender,
