@@ -122,7 +122,7 @@ const ApplyPage = () => {
 
   const handleClose = () => {
     setOpen(false);
-    Router.push("/youtuber");
+    Router.push("/eatery/reserve");
   };
 
   const body = (
