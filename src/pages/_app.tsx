@@ -1,15 +1,18 @@
+/*---- 外部インポート ----*/
 import React from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { AppProps } from 'next/app';
 import { ThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { Box, CssBaseline } from '@material-ui/core';
+
+/*---- 内部インポート ----*/
+import { GlobalProvider } from '../../src/utils/context/context';
+import GlobalHeader from '../components/GlobalHeader';
+import GlobalMenu from '../components/GlobalMenu';
+import FlashMessage from '../components/FlashMessage';
 import theme from '../components/theme';
 import Copyright from '../components/Copyright';
-import Box from '@material-ui/core/Box';
-import GlobalMenu from '../components/GlobalMenu';
-import { GlobalProvider } from '../../src/utils/context/context';
-import FlashMessage from '../components/FlashMessage';
-import { useRouter } from 'next/router';
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
@@ -30,9 +33,9 @@ export default function MyApp(props: AppProps) {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <header>
+          <GlobalHeader />
           <GlobalMenu />
         </header>
         {router.query.type && router.query.message && (
@@ -48,18 +51,15 @@ export default function MyApp(props: AppProps) {
           </Box>
         )
         : (
-          <Box my={4}>
+          <Box my={8} ml={30}>
             <Component {...pageProps} />
           </Box>
         )}
         <footer>
-          <Box mt={5}>
+          <Box mt={5} ml={30}>
             <Copyright />
           </Box>
         </footer>
-
-
-
       </ThemeProvider>
     </GlobalProvider>
   );

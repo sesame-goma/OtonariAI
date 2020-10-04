@@ -21,11 +21,16 @@ const theme = createMuiTheme({
     ].join(","),
   },
   palette: {
+    // colorscheme created by https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=616161&secondary.color=0277BD&secondary.text.color=E3F2FD&primary.text.color=ffffff
     primary: {
-      main: '#556cd6',
+      main: '#424242',
+      dark: '#1b1b1b',
+      light: '#8e8e8e',
     },
     secondary: {
-      main: '#19857b',
+      main: '#0277bd',
+      dark: '#004c8c',
+      light: '#58a5f0',
     },
     error: {
       main: red.A400,
