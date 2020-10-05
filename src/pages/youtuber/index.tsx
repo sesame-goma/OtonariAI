@@ -123,7 +123,7 @@ const YoutuberIndex = () => {
   };
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="lg">
       <Layout title="Home | Jucy">
         <div className={classes.mainContainer}>
           <Paper className={classes.searchContainer}>

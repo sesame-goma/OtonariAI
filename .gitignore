@@ -19,6 +19,7 @@
 .DS_Store
 *.pem
 .firebase/
+otonari-ai-firebase*
 
 # debug
 npm-debug.log*
